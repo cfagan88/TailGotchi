@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supaClient } from "../client";
 
 export default function CreateProfile() {
   const [username, setUsername] = useState("");
@@ -7,7 +8,36 @@ export default function CreateProfile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Send data to supabase
+
+    const {
+      data: { user },
+    } = await supaClient.auth.getUser();
+
+    if (!user) {
+      // Do something
+    }
+
+    try {
+      const { data } = await supaClient
+        .from("users_profiles")
+        .insert([
+          {
+            user_id: user?.id,
+            username: username,
+            name: name,
+            avatar_url: avatarUrl,
+          },
+        ])
+        .select();
+
+      if (data) {
+        // Needs routing to homepage
+        console.log(data);
+      }
+    } catch (error) {
+      // Do something
+      console.log(error);
+    }
   };
 
   return (

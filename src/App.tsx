@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Session } from "@supabase/supabase-js";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./api/client";
 import CreateProfile from "./components/CreateProfile";
+import AuthWrapper from "./components/AuthWrapper";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -22,13 +21,7 @@ export default function App() {
   }, []);
 
   if (!session) {
-    return (
-      <Auth
-        supabaseClient={supaClient}
-        providers={["google"]}
-        appearance={{ theme: ThemeSupa }}
-      />
-    );
+    return <AuthWrapper />;
   } else {
     return <CreateProfile />;
   }

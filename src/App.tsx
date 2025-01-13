@@ -21,7 +21,7 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (!session) {
+  if (!session) { 
     return (
       <>
         <Header />

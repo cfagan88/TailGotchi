@@ -20,13 +20,24 @@ export default {
       // Border & headings
       navy: "#091540",
       // Standard button colour
-      lightblue: "#0081a7",
+      mediumblue: "#0081a7",
       // Hover button colour
-      mediumblue: "#00afb9",
+      lightblue: "#00afb9",
+      black: colors.black,
+      white: colors.white,
     },
     extend: {
       fontFamily: {
         jersey25: ["Jersey25"],
+      },
+      fontSize: {
+        h1: "2.5rem",
+        h2: "2rem",
+        h3: "1.75rem",
+        h4: "1.5rem",
+        h5: "1.25rem",
+        h6: "1.125rem",
+        p: "1rem",
       },
     },
   },

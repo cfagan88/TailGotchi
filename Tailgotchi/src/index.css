@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@font-face {
+  font-family: "Jersey25";
+  src: local("Jersey25-Regular.ttf"),
+    url("/src/fonts/Jersey25-Regular.ttf") format("truetype");
+}
 
+:root {
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;

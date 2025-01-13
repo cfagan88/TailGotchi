@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supaClient } from "../client";
+import { supaClient } from "../api/client";
 
 export default function CreateProfile() {
   const [username, setUsername] = useState("");

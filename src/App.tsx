@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { Session } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./client";
 
 export default function App() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
   useEffect(() => {
     supaClient.auth.getSession().then(({ data: { session } }) => {
       setSession(session);

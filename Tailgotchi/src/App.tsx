@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <div></div>
-      <h1>Tailgotchi</h1>
+      <h1 className="font-jersey25">Tailgotchi</h1>
       <Header></Header>
     </>
   );

@@ -5,6 +5,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./client";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CreateProfile from "./components/CreateProfile";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -26,19 +27,16 @@ export default function App() {
       <>
         <Header />
         <main className="bg-primarylight flex justify-center m-auto w-screen h-[70vh]">
-        
           <Auth
-          supabaseClient={supaClient}
-          providers={["google"]}
-          appearance={{ theme: ThemeSupa }}
-          
+            supabaseClient={supaClient}
+            providers={["google"]}
+            appearance={{ theme: ThemeSupa }}
           />
-        
         </main>
         <Footer />
       </>
     );
   } else {
-    return <div>Logged in!</div>; // Route to Homepage here
+    return <CreateProfile />;
   }
 }

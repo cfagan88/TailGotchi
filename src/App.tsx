@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUs from "./components/AboutUs";
 import Home from "./components/Home";
+import ProfileCreation from "./components/ProfileCreation";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -58,6 +59,10 @@ export default function App() {
           <Route
             path="/about"
             element={session ? <AboutUs /> : <Navigate to="/" />}
+          />
+          <Route 
+            path="/profile-creation"
+            element={session ? <ProfileCreation /> : <Navigate to="/" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

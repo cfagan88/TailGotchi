@@ -15,6 +15,7 @@ export default function CreateProfile() {
 
     if (!user) {
       // Do something
+      return;
     }
 
     try {
@@ -22,7 +23,7 @@ export default function CreateProfile() {
         .from("users_profiles")
         .insert([
           {
-            user_id: user?.id,
+            user_id: user.id,
             username: username,
             name: name,
             avatar_url: avatarUrl,

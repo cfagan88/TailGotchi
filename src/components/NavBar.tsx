@@ -19,6 +19,11 @@ const NavBar = () => {
             Create Profile
           </Link>
         </li>
+        <li className="float-left bg-lightblue hover:bg-mediumblue">
+          <Link to="/add-pet" className="block text-center p-8">
+            Add Pet
+          </Link>
+        </li>
       </ul>
     </nav>
   );

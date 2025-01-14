@@ -1,12 +1,7 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./client";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUs from "./components/AboutUs";
@@ -18,7 +13,7 @@ export default function App() {
   const session = useSession();
 
   return (
-    <Router>
+    <>
       <Header />
       <main>
         <Routes>
@@ -55,6 +50,6 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
-    </Router>
+    </>
   );
 }

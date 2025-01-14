@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supaClient } from "../client";
+import { supaClient } from "../api/client";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateProfile() {

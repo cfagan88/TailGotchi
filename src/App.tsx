@@ -8,6 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import ProfileCreation from "./pages/ProfileCreation";
 import useSession from "./hooks/useSession";
+import AddPet from "./pages/AddPet";
 
 export default function App() {
   const session = useSession();
@@ -44,6 +45,11 @@ export default function App() {
           <Route
             path="/profile-creation"
             element={session ? <ProfileCreation /> : <Navigate to="/" />}
+          />
+
+          <Route
+            path="/add-pet"
+            element={session ? <AddPet /> : <Navigate to="/add-pet" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

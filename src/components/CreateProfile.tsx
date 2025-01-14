@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supaClient } from "../api/client";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateProfile() {
   const [username, setUsername] = useState("");
@@ -8,10 +9,12 @@ export default function CreateProfile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    const navigate = useNavigate();
     const {
       data: { user },
     } = await supaClient.auth.getUser();
+
+    console.log(user);
 
     if (!user) {
       // Do something
@@ -19,20 +22,17 @@ export default function CreateProfile() {
     }
 
     try {
-      const { data } = await supaClient
-        .from("users_profiles")
-        .insert([
-          {
-            user_id: user.id,
-            username: username,
-            name: name,
-            avatar_url: avatarUrl,
-          },
-        ])
-        .select();
+      const { data } = await supaClient.from("users_profiles").insert([
+        {
+          user_id: user.id,
+          username: username,
+          name: name,
+          avatar_url: avatarUrl,
+        },
+      ]);
 
       if (data) {
-        // Needs routing to homepage
+        navigate("/home");
         console.log(data);
       }
     } catch (error) {

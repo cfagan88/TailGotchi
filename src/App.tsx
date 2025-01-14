@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Session } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supaClient } from "./client";
+import { supaClient } from "./api/client";
 import {
   BrowserRouter as Router,
   Routes,

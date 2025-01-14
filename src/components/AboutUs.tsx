@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import dogNodding from "../assets/animations and images/dog-nodding.gif";
 
 const AboutUs = () => {
   const contactRef = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ const AboutUs = () => {
         <div className="w-full lg:w-1/2 bg-navy rounded-xl flex items-center justify-center m-8">
           <img
             className="w-30 h-30"
-            src="src/assets/images/dog-nodding.gif"
+            src={dogNodding}
             alt="tailgotchi-nodding"
           />
         </div>
@@ -108,7 +109,7 @@ const AboutUs = () => {
       <div
         id="contact-info"
         ref={contactRef}
-        className="bg-primarylight p-8 rounded-t-xl"
+        className="bg-primarylight p-8 my-8 rounded-xl"
       >
         <h2 className="text-h2 font-jersey25 text-navy text-center">
           Contact Information

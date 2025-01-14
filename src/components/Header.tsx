@@ -6,7 +6,6 @@ const Header = () => {
       <h1 className="h-[10vh] font-jersey25">TailGotchi</h1>
 
       <NavBar />
-
     </header>
   );
 };

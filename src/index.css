@@ -5,7 +5,8 @@
 @font-face {
   font-family: "Jersey25";
   src: local("Jersey25-Regular.ttf"),
-    url("/src/fonts/Jersey25-Regular.ttf") format("truetype");
+    url("src/assets/animations and images/fonts/Jersey25-Regular.ttf")
+      format("truetype");
 }
 
 :root {

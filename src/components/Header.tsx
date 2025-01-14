@@ -16,6 +16,11 @@ const Header = () => {
               About
             </Link>
           </li>
+          <li className="float-left bg-lightblue hover:bg-mediumblue">
+            <Link to="/profile-creation" className="block text-center p-8">
+              Create Profile
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

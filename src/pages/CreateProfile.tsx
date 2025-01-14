@@ -14,29 +14,31 @@ export default function CreateProfile() {
       data: { user },
     } = await supaClient.auth.getUser();
 
-    console.log(user);
-
     if (!user) {
-      // Do something
+      // DO NOT NAVIGATE TO LOGIN
+      // This should never happen since routing already takes place in app.tsx
+      // inform the user something went wrong instead(?)
+      // Needs looking into
       return;
     }
 
     try {
-      const { data } = await supaClient.from("users_profiles").insert([
-        {
-          user_id: user.id,
-          username: username,
-          name: name,
-          avatar_url: avatarUrl,
-        },
-      ]);
+      const { data } = await supaClient
+        .from("users_profiles")
+        .insert([
+          {
+            user_id: user.id,
+            username: username,
+            name: name,
+            avatar_url: avatarUrl,
+          },
+        ])
+        .select();
 
       if (data) {
         navigate("/home");
-        console.log(data);
       }
     } catch (error) {
-      // Do something
       console.log(error);
     }
   };

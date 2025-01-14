@@ -1,6 +1,6 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supaClient } from "./client";
+import { supaClient } from "./api/client";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";

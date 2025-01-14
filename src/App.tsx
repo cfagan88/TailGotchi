@@ -4,9 +4,9 @@ import { supaClient } from "./api/client";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import AboutUs from "./components/AboutUs";
-import Home from "./components/Home";
-import ProfileCreation from "./components/ProfileCreation";
+import AboutUs from "./pages/AboutUs";
+import Home from "./pages/Home";
+import ProfileCreation from "./pages/ProfileCreation";
 import useSession from "./hooks/useSession";
 
 export default function App() {

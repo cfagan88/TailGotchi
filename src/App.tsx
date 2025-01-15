@@ -8,7 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import CreateProfile from "./pages/CreateProfile";
 import useSession from "./hooks/useSession";
-import AddPet from "./components/AddPet";
+import AddPetPage from "./pages/AddPetPage";
 
 export default function App() {
   const session = useSession();
@@ -49,7 +49,7 @@ export default function App() {
 
           <Route
             path="/add-pet"
-            element={session ? <AddPet /> : <Navigate to="/add-pet" />}
+            element={session ? <AddPetPage /> : <Navigate to="/add-pet" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

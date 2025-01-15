@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           breed: string | null;
           created_at: string;
+          gender: string | null;
           pet_age: number | null;
           pet_care_info: string | null;
           pet_dislikes: string | null;
@@ -23,6 +24,7 @@ export type Database = {
         Insert: {
           breed?: string | null;
           created_at?: string;
+          gender?: string | null;
           pet_age?: number | null;
           pet_care_info?: string | null;
           pet_dislikes?: string | null;
@@ -33,6 +35,7 @@ export type Database = {
         Update: {
           breed?: string | null;
           created_at?: string;
+          gender?: string | null;
           pet_age?: number | null;
           pet_care_info?: string | null;
           pet_dislikes?: string | null;

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { supaClient } from "../api/client";
 import TaskCard from "./TaskCard";
+import { Task } from "../api/global.types";
 
 const TaskSummary = () => {
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   //might need to put the below into a useEffect
   supaClient
     .from("tasks")

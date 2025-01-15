@@ -32,8 +32,8 @@ const PetCard = () => {
             }
 
             if(data){
-                //setPetData(data)
-                console.log(data)
+                const pets = data.map((item) => item.pets);
+                setPetData(pets)
                 setFetchError(null)
             }
         }

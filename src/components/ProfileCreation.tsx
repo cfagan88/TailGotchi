@@ -47,6 +47,8 @@ export default function CreateProfile() {
         Username (required)
         <input
           type="text"
+          minLength={6}
+          maxLength={30}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -56,6 +58,7 @@ export default function CreateProfile() {
         Name (optional)
         <input
           type="text"
+          maxLength={70}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

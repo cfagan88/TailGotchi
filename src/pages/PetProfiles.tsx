@@ -8,7 +8,9 @@ const PetProfiles = () => {
         
         <>
             <Header />
+            
             <main className="bg-primarylight flex flex-col space-y-4 justify-center items-center m-auto w-screen h-[70vh]">
+            <h1>pets</h1>
                 <PetCard /> 
                 
             </main> 

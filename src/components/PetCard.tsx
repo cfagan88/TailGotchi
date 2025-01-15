@@ -5,27 +5,24 @@ import { supaClient } from "../api/client"
 
 
 const PetCard = () => {
-    type petGeneric = {
-        pet_id : number,
-        created_at : string,
-        pet_name : string,
-        pet_care_info? : string,
-        pet_likes? : string, 
-        pet_dislikes? : string,
-        breed? : string,
-        pet_age? : number,
-        gender? : string
-    }
+    
 
     const [fetchError, setFetchError] = useState<null | string>(null) 
-    const [petData, setPetData] = useState<null | petGeneric[]>(null)
+    const [petData, setPetData] = useState<null | object[]>(null)
 
     useEffect(()=>{
         const fetchPets = async () =>{
+            const {
+                data: { user },
+              } = await supaClient.auth.getUser();
+              if(!user){
+                return;
+              }
+
             const { data, error } = await supaClient
             .from('users_pets')
             .select('pets(*)')
-            .eq('user_id', '1')
+            .eq('user_id', user.id)
 
             if (error){
                 setFetchError('Could not fetch pet data')

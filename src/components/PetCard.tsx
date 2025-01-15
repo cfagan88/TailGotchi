@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react"
 import { supaClient } from "../api/client"
+import { Pet } from "../api/global.types"
 
 
 
@@ -8,7 +9,7 @@ const PetCard = () => {
     
 
     const [fetchError, setFetchError] = useState<null | string>(null) 
-    const [petData, setPetData] = useState<null | object[]>(null)
+    const [petData, setPetData] = useState<null | Pet[]>(null)
 
     useEffect(()=>{
         const fetchPets = async () =>{
@@ -31,7 +32,8 @@ const PetCard = () => {
             }
 
             if(data){
-                setPetData(data)
+                //setPetData(data)
+                console.log(data)
                 setFetchError(null)
             }
         }

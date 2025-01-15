@@ -37,11 +37,15 @@ const OwnerDetails = () =>{
     
         }, [])
     return(
+        //switch avatar url to an anchor link
+        //check if possible to destructure ownerData rather than having to use square brackets
         <>
             {fetchError && (<p>{fetchError}</p>)}
             {ownerData&&(
-                <article>
-                <p>Owner: {ownerData[0].username}</p>
+                <article className="border-2 border-mediumblue bg-lightblue rounded-lg min-w-[20%] max-w-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue">
+                <p className="text-navy">Owner name: {ownerData[0].name}</p>
+                <p className="text-navy">Username: {ownerData[0].username}</p>
+                <p className="text-navy">Avatar URL: {ownerData[0].avatar_url}</p> 
                 </article>
             )}
             

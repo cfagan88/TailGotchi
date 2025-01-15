@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import CreateProfile from "./pages/CreateProfile";
 import useSession from "./hooks/useSession";
 import useAuthRedirect from "./hooks/useAuthRedirect";
+import AddPet from "./pages/AddPet";
 
 export default function App() {
   const session = useSession();
@@ -14,9 +15,8 @@ export default function App() {
   useAuthRedirect();
 
   return (
-    <>
-      <Header />
-
+  <>
+    <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
         {session && (
@@ -30,9 +30,13 @@ export default function App() {
           path="*"
           element={<Navigate to={session ? "/home" : "/login"} replace />}
         />
+        <Route
+          path="/add-pet"
+          element={session ? <AddPet /> : <Navigate to="/add-pet" />}
+        />
+        <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />
       </Routes>
-
-      <Footer />
+  <Footer />
     </>
   );
 }

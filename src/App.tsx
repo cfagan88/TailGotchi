@@ -1,14 +1,14 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./api/client";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
-import ProfileCreation from "./pages/ProfileCreation";
+import CreateProfile from "./pages/CreateProfile";
 import useSession from "./hooks/useSession";
-import AddPet from "./pages/AddPet";
+import AddPet from "./components/AddPet";
 
 export default function App() {
   const session = useSession();
@@ -44,7 +44,7 @@ export default function App() {
           />
           <Route
             path="/profile-creation"
-            element={session ? <ProfileCreation /> : <Navigate to="/" />}
+            element={session ? <CreateProfile /> : <Navigate to="/" />}
           />
 
           <Route

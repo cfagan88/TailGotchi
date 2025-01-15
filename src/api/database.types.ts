@@ -47,8 +47,8 @@ export type Database = {
       };
       tasks: {
         Row: {
-          completed_at: string | null;
-          created_at: string;
+          CompletionDate: number | null;
+          CreationDate: number;
           is_completed: boolean | null;
           pet_id: number;
           task_id: number;
@@ -56,8 +56,8 @@ export type Database = {
           task_name: string;
         };
         Insert: {
-          completed_at?: string | null;
-          created_at?: string;
+          CompletionDate?: number | null;
+          CreationDate: number;
           is_completed?: boolean | null;
           pet_id: number;
           task_id?: number;
@@ -65,8 +65,8 @@ export type Database = {
           task_name: string;
         };
         Update: {
-          completed_at?: string | null;
-          created_at?: string;
+          CompletionDate?: number | null;
+          CreationDate?: number;
           is_completed?: boolean | null;
           pet_id?: number;
           task_id?: number;

@@ -47,13 +47,24 @@ const PetCard = () => {
         <>
             {fetchError && (<p>{fetchError}</p>)}
             {petData && (
-                <div>
+                <>
                     {
                         petData.map((pet)=>
-                            <p key={pet.pet_id}>{pet.pet_name}</p>
+                            <article key={pet.pet_id} className="border-2 border-mediumblue bg-lightblue rounded-lg min-w-[20%] max-w-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue">
+                                <p className="text-navy" >Name: {pet.pet_name}</p>
+                                <p className="text-navy" >Age: {pet.pet_age}</p>
+                                <p className="text-navy" >Breed: {pet.breed}</p>
+                                <p className="text-navy" >Gender: {pet.gender}</p>
+                                <p className="text-navy" >Care notes: {pet.pet_care_info}</p>
+                                <p className="text-navy" >Pet dislikes: {pet.pet_dislikes}</p>
+                                <p className="text-navy" >Pet likes: {pet.pet_likes}</p>
+
+                               
+                            </article>
+
                         )
                     }
-                </div>
+                </>
             )}
         </>
     )

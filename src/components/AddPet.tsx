@@ -88,6 +88,8 @@ const AddPet = () => {
             <input
               type="text"
               id="pet-name"
+              minLength={2}
+              maxLength={20}
               required
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's name?"
@@ -118,6 +120,7 @@ const AddPet = () => {
             <input
               type="text"
               id="pet-breed"
+              maxLength={50}
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What breed is your pet?"
               onChange={(e) => setBreed(e.target.value)}
@@ -130,6 +133,7 @@ const AddPet = () => {
             <input
               type="text"
               id="pet-gender"
+              maxLength={20}
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's gender?"
               onChange={(e) => setGender(e.target.value)}
@@ -149,6 +153,7 @@ const AddPet = () => {
         </div>
         <textarea
           id="pet-likes"
+          maxLength={250}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="What activities or toys does your pet enjoy?"
           onChange={(e) => setLikes(e.target.value)}
@@ -166,6 +171,7 @@ const AddPet = () => {
         </div>
         <textarea
           id="pet-dislikes"
+          maxLength={250}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="Is there anything your pet dislikes?"
           onChange={(e) => setDislikes(e.target.value)}
@@ -183,6 +189,7 @@ const AddPet = () => {
         </div>
         <textarea
           id="pet-care"
+          maxLength={500}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="Does your pet require any special care or attention?"
           onChange={(e) => setPetCareInfo(e.target.value)}

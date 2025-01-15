@@ -2,9 +2,23 @@
 import { useEffect, useState } from "react"
 import { supaClient } from "../api/client"
 
+
+
 const PetCard = () => {
-    const [fetchError, setFetchError] = (null)
-    const [petData, setPetData] = useState(null)
+    type petGeneric = {
+        pet_id : number,
+        created_at : string,
+        pet_name : string,
+        pet_care_info? : string,
+        pet_likes? : string, 
+        pet_dislikes? : string,
+        breed? : string,
+        pet_age? : number,
+        gender? : string
+    }
+
+    const [fetchError, setFetchError] = useState<null | string>(null) 
+    const [petData, setPetData] = useState<null | petGeneric[]>(null)
 
     useEffect(()=>{
         const fetchPets = async () =>{
@@ -36,9 +50,9 @@ const PetCard = () => {
             {petData && (
                 <div>
                     {
-                        petData.map((pet)=>{
-                            <p>{pet.pet_name}</p>
-                        })
+                        petData.map((pet)=>
+                            <p key={pet.pet_id}>{pet.pet_name}</p>
+                        )
                     }
                 </div>
             )}

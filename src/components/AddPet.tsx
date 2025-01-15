@@ -20,6 +20,14 @@ const AddPet = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const {
+      data: { user },
+    } = await supaClient.auth.getUser();
+
+    if (!user) {
+      return;
+    }
+
     if (!petName) {
       setFormError("Please fill in all required fields");
       return;
@@ -40,10 +48,21 @@ const AddPet = () => {
           },
         ])
         .select();
+
       if (data) {
         console.log(data);
         setFormError(null);
         // navigate("/"); go to pet profile page once created
+
+        await supaClient
+          .from("users_pets")
+          .insert([
+            {
+              user_id: user.id,
+              pet_id: data[0].pet_id,
+            },
+          ])
+          .select();
       }
     } catch (error) {
       setFormError("Error in adding pet");
@@ -92,7 +111,7 @@ const AddPet = () => {
               max={25}
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="How old is your pet?"
-              onChange={(e) => setPetAge(e.target.value)}
+              onChange={(e) => setPetAge(Number(e.target.value))}
             />
           </div>
         </div>

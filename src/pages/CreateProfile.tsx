@@ -49,6 +49,7 @@ export default function CreateProfile() {
           type="text"
           minLength={6}
           maxLength={30}
+          pattern="^[A-Za-z0-9_-]{6,20}$"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -59,6 +60,7 @@ export default function CreateProfile() {
         <input
           type="text"
           maxLength={70}
+          pattern="^[A-Za-z\s'-]+$"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -67,6 +69,7 @@ export default function CreateProfile() {
         Avatar URL (optional)
         <input
           type="text"
+          pattern="https?:\/\/.*\.(jpg|jpeg|png|gif)$"
           value={avatarUrl}
           onChange={(e) => setAvatarUrl(e.target.value)}
         />

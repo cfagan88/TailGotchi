@@ -11,25 +11,34 @@ export type Database = {
     Tables: {
       pets: {
         Row: {
+          breed: string | null;
           created_at: string;
+          pet_age: number | null;
           pet_care_info: string | null;
+          pet_dislikes: string | null;
           pet_id: number;
+          pet_likes: string | null;
           pet_name: string;
-          profile_desc: string | null;
         };
         Insert: {
+          breed?: string | null;
           created_at?: string;
+          pet_age?: number | null;
           pet_care_info?: string | null;
+          pet_dislikes?: string | null;
           pet_id?: number;
+          pet_likes?: string | null;
           pet_name: string;
-          profile_desc?: string | null;
         };
         Update: {
+          breed?: string | null;
           created_at?: string;
+          pet_age?: number | null;
           pet_care_info?: string | null;
+          pet_dislikes?: string | null;
           pet_id?: number;
+          pet_likes?: string | null;
           pet_name?: string;
-          profile_desc?: string | null;
         };
         Relationships: [];
       };

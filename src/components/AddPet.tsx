@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { supaClient } from "../api/client";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
 import bouncingFullHeart from "../assets/animations and images/bouncing-full-heart.gif";
@@ -15,7 +14,6 @@ const AddPet = () => {
   const [dislikes, setDislikes] = useState<string | null>(null);
   const [petCareInfo, setPetCareInfo] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
-  // const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +21,6 @@ const AddPet = () => {
     const {
       data: { user },
     } = await supaClient.auth.getUser();
-
     if (!user) {
       return;
     }
@@ -50,11 +47,9 @@ const AddPet = () => {
         .select();
 
       if (data) {
-        console.log(data);
         setFormError(null);
-        // navigate("/"); go to pet profile page once created
 
-        await supaClient
+        const usersPetsData = await supaClient
           .from("users_pets")
           .insert([
             {
@@ -66,7 +61,6 @@ const AddPet = () => {
       }
     } catch (error) {
       setFormError("Error in adding pet");
-      console.log(error);
     }
   };
 

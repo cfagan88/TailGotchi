@@ -91,6 +91,7 @@ const AddPet = () => {
               minLength={2}
               maxLength={20}
               required
+              pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's name?"
               onChange={(e) => setPetName(e.target.value)}
@@ -121,6 +122,7 @@ const AddPet = () => {
               type="text"
               id="pet-breed"
               maxLength={50}
+              pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What breed is your pet?"
               onChange={(e) => setBreed(e.target.value)}
@@ -134,6 +136,7 @@ const AddPet = () => {
               type="text"
               id="pet-gender"
               maxLength={20}
+              pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's gender?"
               onChange={(e) => setGender(e.target.value)}

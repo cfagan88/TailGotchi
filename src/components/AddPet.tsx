@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { supaClient } from "../api/client";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
@@ -22,6 +23,8 @@ const AddPet = () => {
     petCareInfo: null as string | null,
     message: null as string | null,
   });
+
+  const navigate = useNavigate();
 
   const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
 
@@ -68,7 +71,7 @@ const AddPet = () => {
       genderError ||
       likesError ||
       dislikesError ||
-      petCareInfo
+      petCareInfoError
     ) {
       setFormError({
         petName: nameError,
@@ -116,25 +119,13 @@ const AddPet = () => {
         .select();
 
       if (data) {
-        setFormError({
-          petName: null,
-          breed: null,
-          gender: null,
-          likes: null,
-          dislikes: null,
-          petCareInfo: null,
-          message: null,
-        });
+        await supaClient.from("users_pets").insert([
+          {
+            user_id: user.id,
+            pet_id: data[0].pet_id,
+          },
+        ]);
 
-        const usersPetsData = await supaClient
-          .from("users_pets")
-          .insert([
-            {
-              user_id: user.id,
-              pet_id: data[0].pet_id,
-            },
-          ])
-          .select();
         setPetName("");
         setPetAge(null);
         setBreed(null);
@@ -142,10 +133,13 @@ const AddPet = () => {
         setLikes(null);
         setDislikes(null);
         setPetCareInfo(null);
+
+        navigate("/my-pets");
       }
     } catch (error) {
       setFormError({
         ...formError,
+        message: "An unexpected error occurred. Please try again later.",
       });
     }
   };

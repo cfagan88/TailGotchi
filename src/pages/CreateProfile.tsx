@@ -1,104 +1,11 @@
-// import { useState } from "react";
-// import { supaClient } from "../api/client";
-// import { useNavigate } from "react-router-dom";
-
-// export default function CreateProfile() {
-//   const [username, setUsername] = useState("");
-//   const [name, setName] = useState("");
-//   const [avatarUrl, setAvatarUrl] = useState("");
-//   const [formError, setFormError] = useState<string | null>(null);
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const navigate = useNavigate();
-//     const {
-//       data: { user },
-//     } = await supaClient.auth.getUser();
-
-//     console.log(user);
-
-//     if (!user) {
-//       setFormError("Error in fetching user ID");
-//       return <p className="error"> {formError} </p>;
-//     }
-
-//     if (!username) {
-//       setFormError("Please fill in all required fields");
-//       // display error message
-//       return;
-//     }
-
-//     try {
-//       const { data } = await supaClient.from("users_profiles").insert([
-//         {
-//           user_id: user.id,
-//           username: username,
-//           name: name,
-//           avatar_url: avatarUrl,
-//         },
-//       ]);
-
-//       if (data) {
-//         setFormError(null);
-//         navigate("/home");
-//       }
-//     } catch (error) {
-//       setFormError("Please fill in all required fields");
-//       // display error message
-//       // console.log(error);
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <label>
-//         Username (required)
-//         <input
-//           type="text"
-//           minLength={6}
-//           maxLength={30}
-//           pattern="^[A-Za-z0-9_-]{6,20}$"
-//           value={username}
-//           onChange={(e) => setUsername(e.target.value)}
-//           required
-//         />
-//       </label>
-//       <label>
-//         Name (optional)
-//         <input
-//           type="text"
-//           maxLength={70}
-//           pattern="^[A-Za-z\s'-]+$"
-//           value={name}
-//           onChange={(e) => setName(e.target.value)}
-//         />
-//       </label>
-//       <label>
-//         Avatar URL (optional)
-//         <input
-//           type="text"
-//           pattern="https?:\/\/.*\.(jpg|jpeg|png|gif)$"
-//           value={avatarUrl}
-//           onChange={(e) => setAvatarUrl(e.target.value)}
-//         />
-//       </label>
-//       <button type="submit">Create Profile</button>
-//     </form>
-//   );
-// }
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supaClient } from "../api/client";
+import { useNavigate } from "react-router-dom";
 
-interface ComponentProps {
-  setProfileExists: Function;
-}
-
-const ProfileCreation: React.FC<ComponentProps> = ({ setProfileExists }) => {
+const ProfileCreation: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [formError, setFormError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -107,35 +14,41 @@ const ProfileCreation: React.FC<ComponentProps> = ({ setProfileExists }) => {
     const {
       data: { user },
     } = await supaClient.auth.getUser();
-    if (!user) {
-      setFormError("Error in fetching user ID");
-      navigate("/");
-    }
+
     if (!username) {
       setFormError("Please fill in all required fields");
+      //       // display error message
       return;
     }
-    try {
-      const { data } = await supaClient
-        .from("users_profiles")
-        .insert([
-          {
-            user_id: user.id,
-            username: username,
-            name: name,
-            avatar_url: avatarUrl,
-          },
-        ])
-        .select();
-      if (data) {
-        console.log(data);
-        setProfileExists(true);
-        setFormError(null);
-        navigate("/home");
+
+    if (!user) {
+      setFormError("Error in fetching user ID");
+      // return <p className="error"> {formError} </p>;
+      navigate("/");
+    } else {
+      try {
+        const { data } = await supaClient
+          .from("users_profiles")
+          .insert([
+            {
+              user_id: user.id,
+              username: username,
+              name: name,
+              avatar_url: avatarUrl,
+            },
+          ])
+          .select();
+
+        if (data) {
+          console.log(data);
+          setFormError(null);
+          navigate("/home");
+        }
+      } catch (error) {
+        setFormError("Please fill in all required fields");
+        //       // display error message
+        console.log(error);
       }
-    } catch (error) {
-      setFormError("Please fill in all required fields");
-      console.log(error);
     }
   };
 
@@ -147,28 +60,37 @@ const ProfileCreation: React.FC<ComponentProps> = ({ setProfileExists }) => {
           <label>Username:</label>
           <input
             type="text"
+            minLength={6}
+            maxLength={30}
+            pattern="^[A-Za-z0-9_-]{6,20}$"
+            value={username}
             className="bg-primarylight text-navy"
             required
             onChange={(e) => setUsername(e.target.value)}
           ></input>
-          <label>Name:</label>
+          <label>Name (optional):</label>
           <input
             type="text"
-            className="bg-primarylight text-navy"
+            maxLength={70}
+            pattern="^[A-Za-z\s'-]+$"
+            value={name}
             onChange={(e) => setName(e.target.value)}
+            className="bg-primarylight text-navy"
           ></input>
           <label>Avatar URL (optional):</label>
           <input
             type="text"
-            className="bg-primarylight text-navy"
+            pattern="https?:\/\/.*\.(jpg|jpeg|png|gif)$"
+            value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
+            className="bg-primarylight text-navy"
           ></input>
           <button
             onClick={handleSubmit}
             type="submit"
             className="w-auto h-auto bg-primarylight text-navy"
-            // value="Add to Profile"
-            // target="_self"
+            value={"Add to Profile"}
+            formTarget="_self"
           >
             Submit
           </button>

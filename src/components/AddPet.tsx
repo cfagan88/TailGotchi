@@ -13,7 +13,6 @@ const AddPet = () => {
   const [likes, setLikes] = useState<string | null>(null);
   const [dislikes, setDislikes] = useState<string | null>(null);
   const [petCareInfo, setPetCareInfo] = useState<string | null>(null);
-
   const [formError, setFormError] = useState({
     petName: null as string | null,
     breed: null as string | null,
@@ -24,13 +23,13 @@ const AddPet = () => {
     message: null as string | null,
   });
 
-  const inputRegex = /^[\p{L}\p{M}'-.]+(?: [\p{L}\p{M}'-.]+)*$/u;
+  const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
 
   const validateInput = (value: string, isRequired: boolean = false) => {
     if (isRequired && value.trim() === "") {
       return "This field is required.";
     } else if (value.trim() !== "" && !inputRegex.test(value)) {
-      return "Only letters, spaces, and - or ' are allowed";
+      return "Please use only letters, spaces, and standard punctuation.";
     }
     return null;
   };
@@ -78,7 +77,7 @@ const AddPet = () => {
         likes: likesError,
         dislikes: dislikesError,
         petCareInfo: petCareInfoError,
-        message: "Please correct the errors before submitting.",
+        message: "Please correct the errors above before submitting.",
       });
       return;
     }
@@ -126,6 +125,16 @@ const AddPet = () => {
           petCareInfo: null,
           message: null,
         });
+
+        const usersPetsData = await supaClient
+          .from("users_pets")
+          .insert([
+            {
+              user_id: user.id,
+              pet_id: data[0].pet_id,
+            },
+          ])
+          .select();
         setPetName("");
         setPetAge(null);
         setBreed(null);
@@ -160,13 +169,14 @@ const AddPet = () => {
         <div className="flex space-x-4">
           <div className="flex-1">
             <label htmlFor="pet-name" className="font-jersey25 text-h3">
-              Name*
+              Name
             </label>
             <input
               type="text"
               id="pet-name"
               minLength={2}
               maxLength={20}
+              required
               className={`w-full p-2 mt-1 border ${
                 formError.petName ? "border-red-500" : "border-mediumblue"
               } rounded`}
@@ -244,7 +254,7 @@ const AddPet = () => {
           <img
             className="w-5 h-5"
             src={bouncingFullHeart}
-            alt="bouncing heart animation"
+            alt="bouncing star animation"
           />
         </div>
         <textarea
@@ -268,7 +278,7 @@ const AddPet = () => {
           <img
             className="w-5 h-5"
             src={bouncingEmptyHeart}
-            alt="bouncing heart animation"
+            alt="bouncing star animation"
           />
         </div>
         <textarea
@@ -314,6 +324,7 @@ const AddPet = () => {
         )}
         <div className="flex justify-center mt-4">
           <button
+            onClick={handleSubmit}
             type="submit"
             className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue"
           >

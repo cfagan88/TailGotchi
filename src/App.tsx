@@ -2,6 +2,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./api/client";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUs from "./pages/AboutUs";
@@ -9,9 +10,34 @@ import Home from "./pages/Home";
 import CreateProfile from "./pages/CreateProfile";
 import useSession from "./hooks/useSession";
 import AddPetPage from "./pages/AddPetPage";
+import UserExists from "./components/UserExists";
 
 export default function App() {
   const session = useSession();
+  const [profileExists, setProfileExists] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supaClient.auth.getUser();
+
+      if (user) {
+        const { data } = await supaClient
+          .from("users_profiles")
+          .select("*, users!inner(*)")
+          .eq("users.id", user.id);
+
+        if (data) {
+          console.log("test true");
+          setProfileExists(true);
+        } else {
+          setProfileExists(false);
+        }
+      }
+    };
+    checkUser();
+  }, [profileExists]);
 
   return (
     <>
@@ -30,7 +56,7 @@ export default function App() {
                   />
                 </div>
               ) : (
-                <Navigate to="/home" />
+                <UserExists />
               )
             }
           />
@@ -49,7 +75,7 @@ export default function App() {
 
           <Route
             path="/add-pet"
-            element={session ? <AddPetPage /> : <Navigate to="/add-pet" />}
+            element={session ? <AddPetPage /> : <Navigate to="/" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

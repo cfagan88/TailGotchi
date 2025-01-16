@@ -58,6 +58,13 @@ const AddPet = () => {
             },
           ])
           .select();
+        setPetName("");
+        setPetAge(null);
+        setBreed(null);
+        setGender(null);
+        setLikes(null);
+        setDislikes(null);
+        setPetCareInfo(null);
       }
     } catch (error) {
       setFormError("Error in adding pet");
@@ -94,6 +101,7 @@ const AddPet = () => {
               pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's name?"
+              value={petName}
               onChange={(e) => setPetName(e.target.value)}
             />
           </div>
@@ -108,6 +116,7 @@ const AddPet = () => {
               max={25}
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="How old is your pet?"
+              value={petAge || ""}
               onChange={(e) => setPetAge(Number(e.target.value))}
             />
           </div>
@@ -125,6 +134,7 @@ const AddPet = () => {
               pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What breed is your pet?"
+              value={breed || ""}
               onChange={(e) => setBreed(e.target.value)}
             />
           </div>
@@ -139,6 +149,7 @@ const AddPet = () => {
               pattern="^[A-Za-z\s'-]+$"
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="What is your pet's gender?"
+              value={gender || ""}
               onChange={(e) => setGender(e.target.value)}
             />
           </div>
@@ -159,6 +170,7 @@ const AddPet = () => {
           maxLength={250}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="What activities or toys does your pet enjoy?"
+          value={likes || ""}
           onChange={(e) => setLikes(e.target.value)}
         />
 
@@ -177,6 +189,7 @@ const AddPet = () => {
           maxLength={250}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="Is there anything your pet dislikes?"
+          value={dislikes || ""}
           onChange={(e) => setDislikes(e.target.value)}
         />
 
@@ -195,6 +208,7 @@ const AddPet = () => {
           maxLength={500}
           className="w-full p-2 mt-1 border border-mediumblue rounded"
           placeholder="Does your pet require any special care or attention?"
+          value={petCareInfo || ""}
           onChange={(e) => setPetCareInfo(e.target.value)}
         />
 

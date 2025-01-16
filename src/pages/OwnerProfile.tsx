@@ -8,10 +8,11 @@ const OwnerProfile = () => {
     return(
         <>
             <Header />
-            <main className="bg-primarylight text-navy flex items-center justify-center m-auto w-screen h-[70vh]">
+            <main className="bg-primarylight  text-navy flex flex-col space-y-4 items-center justify-center m-auto w-screen min-h-[70vh]">
                 <OwnerDetails />
-                <PetCard />
-            
+                <div className="bg-primarylight flex-wrap space-x-3 space-y-4 text-navy flex items-center justify-center m-auto">
+                    <PetCard />
+                </div>
             </main>
             <Footer />
         </>

@@ -13,20 +13,89 @@ const AddPet = () => {
   const [likes, setLikes] = useState<string | null>(null);
   const [dislikes, setDislikes] = useState<string | null>(null);
   const [petCareInfo, setPetCareInfo] = useState<string | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useState({
+    petName: null as string | null,
+    breed: null as string | null,
+    gender: null as string | null,
+    likes: null as string | null,
+    dislikes: null as string | null,
+    petCareInfo: null as string | null,
+    message: null as string | null,
+  });
+
+  const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
+
+  const validateInput = (value: string, isRequired: boolean = false) => {
+    if (isRequired && value.trim() === "") {
+      return "This field is required.";
+    } else if (value.trim() !== "" && !inputRegex.test(value)) {
+      return "Please use only letters, spaces, and standard punctuation.";
+    }
+    return null;
+  };
+
+  const handleBlur = (
+    field:
+      | "petName"
+      | "breed"
+      | "gender"
+      | "likes"
+      | "dislikes"
+      | "petCareInfo",
+    value: string,
+    isRequired: boolean = false
+  ) => {
+    const error = validateInput(value, isRequired);
+    setFormError((prevErrors) => ({
+      ...prevErrors,
+      [field]: error,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nameError = validateInput(petName, true);
+    const breedError = validateInput(breed || "", false);
+    const genderError = validateInput(gender || "", false);
+    const likesError = validateInput(likes || "", false);
+    const dislikesError = validateInput(dislikes || "", false);
+    const petCareInfoError = validateInput(petCareInfo || "", false);
+
+    if (
+      nameError ||
+      breedError ||
+      genderError ||
+      likesError ||
+      dislikesError ||
+      petCareInfo
+    ) {
+      setFormError({
+        petName: nameError,
+        breed: breedError,
+        gender: genderError,
+        likes: likesError,
+        dislikes: dislikesError,
+        petCareInfo: petCareInfoError,
+        message: "Please correct the errors above before submitting.",
+      });
+      return;
+    }
+
+    setFormError({
+      petName: null,
+      breed: null,
+      gender: null,
+      likes: null,
+      dislikes: null,
+      petCareInfo: null,
+      message: null,
+    });
 
     const {
       data: { user },
     } = await supaClient.auth.getUser();
     if (!user) {
-      return;
-    }
-
-    if (!petName) {
-      setFormError("Please fill in all required fields");
       return;
     }
 
@@ -47,7 +116,15 @@ const AddPet = () => {
         .select();
 
       if (data) {
-        setFormError(null);
+        setFormError({
+          petName: null,
+          breed: null,
+          gender: null,
+          likes: null,
+          dislikes: null,
+          petCareInfo: null,
+          message: null,
+        });
 
         const usersPetsData = await supaClient
           .from("users_pets")
@@ -58,9 +135,18 @@ const AddPet = () => {
             },
           ])
           .select();
+        setPetName("");
+        setPetAge(null);
+        setBreed(null);
+        setGender(null);
+        setLikes(null);
+        setDislikes(null);
+        setPetCareInfo(null);
       }
     } catch (error) {
-      setFormError("Error in adding pet");
+      setFormError({
+        ...formError,
+      });
     }
   };
 
@@ -79,7 +165,7 @@ const AddPet = () => {
         care information you'd like to share.
       </p>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex space-x-4">
           <div className="flex-1">
             <label htmlFor="pet-name" className="font-jersey25 text-h3">
@@ -91,10 +177,17 @@ const AddPet = () => {
               minLength={2}
               maxLength={20}
               required
-              className="w-full p-2 mt-1 border border-mediumblue rounded"
+              className={`w-full p-2 mt-1 border ${
+                formError.petName ? "border-red-500" : "border-mediumblue"
+              } rounded`}
               placeholder="What is your pet's name?"
+              value={petName}
               onChange={(e) => setPetName(e.target.value)}
+              onBlur={() => handleBlur("petName", petName, true)}
             />
+            {formError.petName && (
+              <p className="text-red-500 text-sm">{formError.petName}</p>
+            )}
           </div>
           <div className="flex-1">
             <label htmlFor="pet-age" className="font-jersey25 text-h3">
@@ -107,11 +200,11 @@ const AddPet = () => {
               max={25}
               className="w-full p-2 mt-1 border border-mediumblue rounded"
               placeholder="How old is your pet?"
+              value={petAge || ""}
               onChange={(e) => setPetAge(Number(e.target.value))}
             />
           </div>
         </div>
-
         <div className="flex space-x-4">
           <div className="flex-1">
             <label htmlFor="pet-breed" className="font-jersey25 text-h3">
@@ -121,10 +214,17 @@ const AddPet = () => {
               type="text"
               id="pet-breed"
               maxLength={50}
-              className="w-full p-2 mt-1 border border-mediumblue rounded"
+              className={`w-full p-2 mt-1 border ${
+                formError.breed ? "border-red-500" : "border-mediumblue"
+              } rounded`}
               placeholder="What breed is your pet?"
+              value={breed || ""}
               onChange={(e) => setBreed(e.target.value)}
+              onBlur={() => handleBlur("breed", breed || "", false)}
             />
+            {formError.breed && (
+              <p className="text-red-500 text-sm">{formError.breed}</p>
+            )}
           </div>
           <div className="flex-1">
             <label htmlFor="pet-gender" className="font-jersey25 text-h3">
@@ -134,13 +234,19 @@ const AddPet = () => {
               type="text"
               id="pet-gender"
               maxLength={20}
-              className="w-full p-2 mt-1 border border-mediumblue rounded"
+              className={`w-full p-2 mt-1 border ${
+                formError.gender ? "border-red-500" : "border-mediumblue"
+              } rounded`}
               placeholder="What is your pet's gender?"
+              value={gender || ""}
               onChange={(e) => setGender(e.target.value)}
+              onBlur={() => handleBlur("gender", gender || "", false)}
             />
+            {formError.gender && (
+              <p className="text-red-500 text-sm">{formError.gender}</p>
+            )}
           </div>
         </div>
-
         <div className="flex items-center space-x-1 mb-4">
           <label htmlFor="pet-likes" className="font-jersey25 text-h3">
             Likes
@@ -154,11 +260,17 @@ const AddPet = () => {
         <textarea
           id="pet-likes"
           maxLength={250}
-          className="w-full p-2 mt-1 border border-mediumblue rounded"
+          className={`w-full p-2 mt-1 border ${
+            formError.likes ? "border-red-500" : "border-mediumblue"
+          } rounded`}
           placeholder="What activities or toys does your pet enjoy?"
+          value={likes || ""}
           onChange={(e) => setLikes(e.target.value)}
-        />
-
+          onBlur={() => handleBlur("likes", likes || "", false)}
+        />{" "}
+        {formError.likes && (
+          <p className="text-red-500 text-sm">{formError.likes}</p>
+        )}
         <div className="flex items-center space-x-1 mb-4">
           <label htmlFor="pet-dislikes" className="font-jersey25 text-h3">
             Dislikes
@@ -172,11 +284,17 @@ const AddPet = () => {
         <textarea
           id="pet-dislikes"
           maxLength={250}
-          className="w-full p-2 mt-1 border border-mediumblue rounded"
+          className={`w-full p-2 mt-1 border ${
+            formError.dislikes ? "border-red-500" : "border-mediumblue"
+          } rounded`}
           placeholder="Is there anything your pet dislikes?"
+          value={dislikes || ""}
           onChange={(e) => setDislikes(e.target.value)}
-        />
-
+          onBlur={() => handleBlur("dislikes", dislikes || "", false)}
+        />{" "}
+        {formError.dislikes && (
+          <p className="text-red-500 text-sm">{formError.dislikes}</p>
+        )}
         <div className="flex items-center space-x-1 mb-4">
           <label htmlFor="pet-care" className="font-jersey25 text-h3">
             Special care information
@@ -190,11 +308,20 @@ const AddPet = () => {
         <textarea
           id="pet-care"
           maxLength={500}
-          className="w-full p-2 mt-1 border border-mediumblue rounded"
+          className={`w-full p-2 mt-1 border ${
+            formError.petCareInfo ? "border-red-500" : "border-mediumblue"
+          } rounded`}
           placeholder="Does your pet require any special care or attention?"
+          value={petCareInfo || ""}
           onChange={(e) => setPetCareInfo(e.target.value)}
-        />
-
+          onBlur={() => handleBlur("petCareInfo", petCareInfo || "", false)}
+        />{" "}
+        {formError.petCareInfo && (
+          <p className="text-red-500 text-sm">{formError.petCareInfo}</p>
+        )}
+        {formError.message && (
+          <p className="text-red-500 text-sm font-black">{formError.message}</p>
+        )}
         <div className="flex justify-center mt-4">
           <button
             onClick={handleSubmit}

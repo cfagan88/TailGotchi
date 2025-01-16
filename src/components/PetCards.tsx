@@ -47,6 +47,11 @@ const PetCards: React.FC<PetCardProp> = ({ setPetSelect }) => {
   return (
     <>
       {fetchError && <p>{fetchError}</p>}
+      {petData && petData.length === 0 && (
+        <article className="border-2 border-mediumblue bg-lightblue rounded-lg min-w-[20%] max-fw-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue">
+          <p className="text-navy">You currently have no pets to display.</p>
+        </article>
+      )}
       {petData && (
         <>
           {petData.map((pet) => (

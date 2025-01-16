@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
 import { Pet } from "../api/global.types";
 
-const PetCard = () => {
+interface PetCardProp {
+  setPetSelect: React.Dispatch<React.SetStateAction<null | number>>;
+}
+
+const PetCard : React.FC<PetCardProp> = ({ setPetSelect }) => {
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [petData, setPetData] = useState<null | Pet[]>(null);
+  
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -36,6 +41,10 @@ const PetCard = () => {
     fetchPets();
   }, []);
 
+  const handlePetClick = (petId : number) =>{
+    setPetSelect(petId)
+  }
+
   return (
     <>
       {fetchError && <p>{fetchError}</p>}
@@ -53,6 +62,7 @@ const PetCard = () => {
               <p className="text-navy">Care notes: {pet.pet_care_info}</p>
               <p className="text-navy">Pet dislikes: {pet.pet_dislikes}</p>
               <p className="text-navy">Pet likes: {pet.pet_likes}</p>
+              <button onClick={()=>handlePetClick(pet.pet_id)} className="bg-mediumblue border-primarylight border-2 rounded-lg">Open pet profile</button>
             </article>
           ))}
         </>

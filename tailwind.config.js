@@ -25,6 +25,7 @@ export default {
       lightblue: "#00afb9",
       black: colors.black,
       white: colors.white,
+      red: colors.red,
     },
     extend: {
       fontFamily: {

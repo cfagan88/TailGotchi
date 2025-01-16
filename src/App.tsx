@@ -2,6 +2,7 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supaClient } from "./api/client";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AboutUs from "./pages/AboutUs";
@@ -12,6 +13,30 @@ import AddPetPage from "./pages/AddPetPage";
 
 export default function App() {
   const session = useSession();
+  const [profileExists, setProfileExists] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supaClient.auth.getUser();
+
+      if (user) {
+        const { data } = await supaClient
+          .from("users_profiles")
+          .select("*, users!inner(*)")
+          .eq("users.id", user.id);
+
+        if (data) {
+          console.log("test true");
+          setProfileExists(true);
+        } else {
+          setProfileExists(false);
+        }
+      }
+    };
+    checkUser();
+  }, [profileExists]);
 
   return (
     <>
@@ -29,8 +54,10 @@ export default function App() {
                     appearance={{ theme: ThemeSupa }}
                   />
                 </div>
-              ) : (
+              ) : profileExists ? (
                 <Navigate to="/home" />
+              ) : (
+                <Navigate to="/profile-creation" />
               )
             }
           />
@@ -44,12 +71,18 @@ export default function App() {
           />
           <Route
             path="/profile-creation"
-            element={session ? <CreateProfile /> : <Navigate to="/" />}
+            element={
+              session ? (
+                <CreateProfile setProfileExists={setProfileExists} />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
 
           <Route
             path="/add-pet"
-            element={session ? <AddPetPage /> : <Navigate to="/add-pet" />}
+            element={session ? <AddPetPage /> : <Navigate to="/" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

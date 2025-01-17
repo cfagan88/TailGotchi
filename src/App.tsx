@@ -12,6 +12,7 @@ import useSession from "./hooks/useSession";
 import AddPetPage from "./pages/AddPetPage";
 import UserExists from "./components/UserExists";
 import PetProfiles from "./pages/PetProfiles";
+import MyTasks from "./pages/MyTasks";
 import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
@@ -84,7 +85,13 @@ export default function App() {
             element={session ? <PetProfiles /> : <Navigate to="/" />}
           />
 
+          <Route
+            path="/my-tasks"
+            element={session ? <MyTasks /> : <Navigate to="/" />}
+          />
+
           <Route path="*" element={<ErrorPage />} />
+
         </Routes>
       </main>
       <Footer />

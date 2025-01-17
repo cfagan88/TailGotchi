@@ -32,6 +32,11 @@ const NavBar = () => {
             Add Pet
           </Link>
         </li>
+        <li className="float-left bg-lightblue hover:bg-mediumblue">
+          <Link to="/my-tasks" className="block text-center p-8">
+            My Tasks
+          </Link>
+        </li>
         {session && (
           <li className="float-left bg-lightblue hover:bg-mediumblue">
             <button className="block text-center p-8" onClick={signOut}>

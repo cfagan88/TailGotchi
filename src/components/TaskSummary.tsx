@@ -45,7 +45,7 @@ const TaskSummary = () => {
 
   return (
     <div>
-        {showForm?<TaskForm/>:<button onClick={popUpTaskForm}>Add Task</button>}
+        {showForm?<TaskForm setShowForm={setShowForm}/>:<button onClick={popUpTaskForm}>Add Task</button>}
       {loading?<p>loading tasks</p>:
       tasks&&tasks.map((task) => {
         return <TaskCard key={task.task_id} task={task} />;

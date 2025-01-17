@@ -44,7 +44,7 @@ const TaskCard = ({ task }: { task: Task }) => {
     });
 
   return (
-    <div className="p-4 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
+    <div className="p-4 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto drop-shadow-lg">
       <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
       <div className="flex">
         <h3 className="mb-2 text-xl text-navy">{petName}</h3>

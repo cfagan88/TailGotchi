@@ -12,6 +12,7 @@ import useSession from "./hooks/useSession";
 import AddPetPage from "./pages/AddPetPage";
 import UserExists from "./components/UserExists";
 import PetProfiles from "./pages/PetProfiles";
+import MyTasks from "./pages/MyTasks";
 
 export default function App() {
   const session = useSession();
@@ -82,6 +83,11 @@ export default function App() {
           <Route
             path="/my-pets"
             element={session ? <PetProfiles /> : <Navigate to="/" />}
+          />
+
+          <Route
+            path="/my-tasks"
+            element={session ? <MyTasks /> : <Navigate to="/" />}
           />
 
           <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />

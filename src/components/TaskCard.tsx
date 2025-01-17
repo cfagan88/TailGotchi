@@ -22,12 +22,13 @@ const TaskCard = ({ task }: { task: Task }) => {
   //   console.log(myDate)
 
   //update task to complete if button is pressed
-  const handleClick = () => {
+  const handleClick = async () => {
     console.log("clicked", task_id)
-    supaClient
+    await supaClient
       .from("tasks")
-      .update({ is_completed: true })
-      .eq("task_id", task_id);
+      .update({ is_completed: true, CompletionDate:Date.now() })
+      .eq("task_id", task_id)
+      .select();
   };
 
   supaClient
@@ -42,27 +43,22 @@ const TaskCard = ({ task }: { task: Task }) => {
     });
   return (
     <div className="p-8 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
-      <h2 className="font-jersey25 text-navy">
+      <h2 className=" text-navy">
         Pet Name goes here: {petName}
         
       </h2>
-      <h3 className="font-jersey25 text-navy">
+      <h3 className=" text-navy">
         Task name goes here: {task_name}
         
       </h3>
-      <p className="font-jersey25 text-navy">
+      <p className=" text-navy">
         More info about the tasks: {task_info}
         
       </p>
-      {/*check with others which they prefer, checkbox or complete button */}
-      <label className="font-jersey25 text-navy">
-        Complete:
-        <input type="checkbox"></input>
-      </label>
       <button
         type="button"
         onClick={handleClick}
-        className="font-jersey25 text-navy mb-4"
+        className=" text-navy mb-4"
       >
         Complete
       </button>
@@ -71,3 +67,4 @@ const TaskCard = ({ task }: { task: Task }) => {
 };
 
 export default TaskCard;
+

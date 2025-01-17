@@ -6,11 +6,16 @@ interface ComponentProps {
   setShowForm: Function;
 }
 
-const TaskForm:React.FC<ComponentProps>= ({ setShowForm }) => {
+const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
   const [myPets, setMyPets] = useState<Pet[] | null>();
   const [taskName, setTaskName] = useState<string>("");
   const [taskInfo, setTaskInfo] = useState<string>("");
   const [selectedPet, setSelectedPet] = useState<string>("");
+  // const [required,setRequired]=useState({
+  //   taskName:null as string|null,
+  //   pet_id:null as number|null,
+  //   CompletionDate: null as number|null,
+  // })
 
   useEffect(() => {
     const getData = async () => {
@@ -31,30 +36,30 @@ const TaskForm:React.FC<ComponentProps>= ({ setShowForm }) => {
 
   const handleAddTask = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setShowForm(false);
-
-    
-
-    try { 
-      const {data}=await supaClient
-    .from('tasks')
-    .insert([{
-      task_name:taskName,
-      task_info:taskInfo,
-      pet_id: selectedPet,
-      CreationDate:Date.now(),
-      CompletionDate:null,
-      is_completed:false,
-    }])
-    .select()
-    if(data){
-      setSelectedPet(""),
-      setTaskName(""),
-      setTaskInfo("")
-    }
-  }
-    catch(error){
-      console.log("error")
+    if (!taskName || !selectedPet) {
+      console.log("error", taskName, selectedPet);
+    } else {
+      try {
+        const { data } = await supaClient
+          .from("tasks")
+          .insert([
+            {
+              task_name: taskName,
+              task_info: taskInfo,
+              pet_id: Number(selectedPet),
+              CreationDate: Date.now(),
+              CompletionDate: null,
+              is_completed: false,
+            },
+          ])
+          .select();
+        if (data) {
+          setSelectedPet(""), setTaskName(""), setTaskInfo("");
+        }
+      } catch (error) {
+        console.log("error");
+      }
+      setShowForm(false);
     }
   };
   return (
@@ -77,8 +82,15 @@ const TaskForm:React.FC<ComponentProps>= ({ setShowForm }) => {
         className="mb-4 bg-white"
       />
       <label>Assign Pet</label>
-      <select required className="mb-4 bg-white" onChange={(e)=>{setSelectedPet(e.target.value)}}>
-        <option selected hidden disabled>
+      <select
+        required
+        className="mb-4 bg-white"
+        onChange={(e) => {
+          setSelectedPet(e.target.value);
+        }}
+        defaultValue={"placeholder"}
+      >
+        <option value={"placeholder"} hidden disabled>
           Please Select a Pet
         </option>
         {myPets?.map((pet) => {

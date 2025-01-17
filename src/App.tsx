@@ -42,7 +42,7 @@ export default function App() {
   }, [profileExists]);
 
   return (
-    <>
+    <div className="bg-primarylight">
       <Header />
       <main>
         <Routes>
@@ -95,6 +95,6 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

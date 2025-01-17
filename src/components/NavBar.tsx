@@ -2,10 +2,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { supaClient } from "../api/client";
 import useSession from "../hooks/useSession";
+import { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const session = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   async function signOut() {
     const { error } = await supaClient.auth.signOut();
     if (error) {
@@ -15,20 +19,33 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="w-screen h-[10vh] m-auto overflow-hidden">
-      <ul className="overflow-hidden">
-        <li className="float-left bg-lightblue hover:bg-mediumblue">
-          <Link to="/" className="block text-center p-8">
+    <nav className="w-full sm:w-auto">
+      <div className="sm:hidden flex justify-end">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="text-lightblue p-2"
+        >
+          <GiHamburgerMenu className="w-6 h-6  text-lightblue" />
+        </button>
+      </div>
+
+      <ul
+        className={`${
+          menuOpen ? "block" : "hidden"
+        } sm:flex flex-col sm:flex-row items-center sm:gap-8 text-lg`}
+      >
+        <li>
+          <Link to="/" className="hover:text-mediumblue py-2 sm:py-0">
             Home
           </Link>
         </li>
-        <li className="float-left bg-lightblue hover:bg-mediumblue">
-          <Link to="/about" className="block text-center p-8">
+        <li>
+          <Link to="/about" className="hover:text-mediumblue py-2 sm:py-0">
             About
           </Link>
         </li>
-        <li className="float-left bg-lightblue hover:bg-mediumblue">
-          <Link to="/add-pet" className="block text-center p-8">
+        <li>
+          <Link to="/add-pet" className="hover:text-mediumblue py-2 sm:py-0">
             Add Pet
           </Link>
         </li>
@@ -38,8 +55,11 @@ const NavBar = () => {
           </Link>
         </li>
         {session && (
-          <li className="float-left bg-lightblue hover:bg-mediumblue">
-            <button className="block text-center p-8" onClick={signOut}>
+          <li className="mt-4 sm:mt-0">
+            <button
+              className="bg-lightblue px-6 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue"
+              onClick={signOut}
+            >
               Sign out
             </button>
           </li>

@@ -147,7 +147,9 @@ const AddPet = () => {
   return (
     <div className="p-8 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
       <div className="flex mb-2">
-        <h2 className="text-h2 font-jersey25">Add your pet's information</h2>
+        <h2 className="text-2xl font-bold content-center">
+          Add your pet's information
+        </h2>
         <img
           className="w-10 h-10 mt-1"
           src={dogNodding}
@@ -162,7 +164,7 @@ const AddPet = () => {
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex space-x-4">
           <div className="flex-1">
-            <label htmlFor="pet-name" className="font-jersey25 text-h3">
+            <label htmlFor="pet-name" className=" text-2xl font-bold">
               Name
             </label>
             <input
@@ -184,7 +186,7 @@ const AddPet = () => {
             )}
           </div>
           <div className="flex-1">
-            <label htmlFor="pet-age" className="font-jersey25 text-h3">
+            <label htmlFor="pet-age" className="text-2xl font-bold">
               Age
             </label>
             <input
@@ -201,7 +203,7 @@ const AddPet = () => {
         </div>
         <div className="flex space-x-4">
           <div className="flex-1">
-            <label htmlFor="pet-breed" className="font-jersey25 text-h3">
+            <label htmlFor="pet-breed" className="text-2xl font-bold">
               Breed
             </label>
             <input
@@ -221,7 +223,7 @@ const AddPet = () => {
             )}
           </div>
           <div className="flex-1">
-            <label htmlFor="pet-gender" className="font-jersey25 text-h3">
+            <label htmlFor="pet-gender" className="text-2xl font-bold">
               Gender
             </label>
             <input
@@ -242,7 +244,7 @@ const AddPet = () => {
           </div>
         </div>
         <div className="flex items-center space-x-1 mb-4">
-          <label htmlFor="pet-likes" className="font-jersey25 text-h3">
+          <label htmlFor="pet-likes" className="text-2xl font-bold">
             Likes
           </label>
           <img
@@ -266,7 +268,7 @@ const AddPet = () => {
           <p className="text-red-500 text-sm">{formError.likes}</p>
         )}
         <div className="flex items-center space-x-1 mb-4">
-          <label htmlFor="pet-dislikes" className="font-jersey25 text-h3">
+          <label htmlFor="pet-dislikes" className="text-2xl font-bold">
             Dislikes
           </label>
           <img
@@ -290,7 +292,7 @@ const AddPet = () => {
           <p className="text-red-500 text-sm">{formError.dislikes}</p>
         )}
         <div className="flex items-center space-x-1 mb-4">
-          <label htmlFor="pet-care" className="font-jersey25 text-h3">
+          <label htmlFor="pet-care" className="text-2xl font-bold">
             Special care information
           </label>
           <img

@@ -2,13 +2,33 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { supaClient } from "../api/client";
 import useSession from "../hooks/useSession";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const session = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      const {
+        data: { user },
+      } = await supaClient.auth.getUser();
+
+      if (user) {
+        const { data } = await supaClient
+          .from("users_profiles")
+          .select("*, users!inner(*)")
+          .eq("users.id", user.id);
+        if (data) {
+          setUser(data[0].username);
+        }
+      }
+    }
+    getCurrentUser();
+  }, []);
 
   async function signOut() {
     const { error } = await supaClient.auth.signOut();
@@ -55,14 +75,17 @@ const NavBar = () => {
           </Link>
         </li>
         {session && (
-          <li className="mt-4 sm:mt-0">
-            <button
-              className="bg-lightblue px-6 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue"
-              onClick={signOut}
-            >
-              Sign out
-            </button>
-          </li>
+          <div>
+            <li className="text-center">{user}</li>
+            <li className="mt-4 sm:mt-0">
+              <button
+                className="bg-lightblue px-4 py-1 text-sm rounded-full font-bold text-white hover:bg-mediumblue"
+                onClick={signOut}
+              >
+                Sign out
+              </button>
+            </li>
+          </div>
         )}
       </ul>
     </nav>

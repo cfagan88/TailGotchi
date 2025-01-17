@@ -49,8 +49,8 @@ const NavBar = () => {
             Add Pet
           </Link>
         </li>
-        <li className="float-left bg-lightblue hover:bg-mediumblue">
-          <Link to="/my-tasks" className="block text-center p-8">
+        <li>
+          <Link to="/my-tasks" className="hover:text-mediumblue py-2 sm:py-0">
             My Tasks
           </Link>
         </li>

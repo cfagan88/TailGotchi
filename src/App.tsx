@@ -30,7 +30,6 @@ export default function App() {
           .eq("users.id", user.id);
 
         if (data) {
-          console.log("test true");
           setProfileExists(true);
         } else {
           setProfileExists(false);

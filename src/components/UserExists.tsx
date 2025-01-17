@@ -5,7 +5,7 @@ const UserExists = () => {
   const [profileExists, setProfileExists] = useState<boolean>(false);
   const [hiddenLoading, setHiddenLoading] = useState<boolean>(true);
   useEffect(() => {
-    const testFn = async () => {
+    const checkProfileExists = async () => {
       setHiddenLoading(true);
       const {
         data: { user },
@@ -24,7 +24,7 @@ const UserExists = () => {
         }
       }
     };
-    testFn();
+    checkProfileExists();
   }, []);
   if (!hiddenLoading) {
     if (profileExists) {

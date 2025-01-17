@@ -13,9 +13,9 @@ const ProfileCreation: React.FC = () => {
     message: null as string | null,
   });
   const navigate = useNavigate();
-  const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
 
   const validateInput = (value: string, isRequired: boolean = false) => {
+    const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
     if (isRequired && value.trim() === "") {
       return "This field is required.";
     } else if (value.trim() !== "" && !inputRegex.test(value)) {

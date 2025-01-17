@@ -13,6 +13,7 @@ import AddPetPage from "./pages/AddPetPage";
 import UserExists from "./components/UserExists";
 import PetProfiles from "./pages/PetProfiles";
 import MyTasks from "./pages/MyTasks";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
   const session = useSession();
@@ -31,7 +32,6 @@ export default function App() {
           .eq("users.id", user.id);
 
         if (data) {
-          console.log("test true");
           setProfileExists(true);
         } else {
           setProfileExists(false);
@@ -90,7 +90,8 @@ export default function App() {
             element={session ? <MyTasks /> : <Navigate to="/" />}
           />
 
-          <Route path="*" element={<Navigate to={session ? "/home" : "/"} />} />
+          <Route path="*" element={<ErrorPage />} />
+
         </Routes>
       </main>
       <Footer />

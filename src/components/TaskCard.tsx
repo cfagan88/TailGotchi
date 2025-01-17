@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supaClient } from "../api/client";
 import { Task } from "../api/global.types";
+import taskDog from "../assets/animations and images/happy-dog.gif";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const {
@@ -23,10 +24,10 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   //update task to complete if button is pressed
   const handleClick = async () => {
-    console.log("clicked", task_id)
+    console.log("clicked", task_id);
     await supaClient
       .from("tasks")
-      .update({ is_completed: true, CompletionDate:Date.now() })
+      .update({ is_completed: true, CompletionDate: Date.now() })
       .eq("task_id", task_id)
       .select();
   };
@@ -41,30 +42,30 @@ const TaskCard = ({ task }: { task: Task }) => {
         return;
       }
     });
+
   return (
-    <div className="p-8 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
-      <h2 className=" text-navy">
-        Pet Name goes here: {petName}
-        
-      </h2>
-      <h3 className=" text-navy">
-        Task name goes here: {task_name}
-        
-      </h3>
-      <p className=" text-navy">
-        More info about the tasks: {task_info}
-        
-      </p>
-      <button
-        type="button"
-        onClick={handleClick}
-        className=" text-navy mb-4"
-      >
-        Complete
-      </button>
+    <div className="p-4 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
+      <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+      <div className="flex">
+        <h3 className="mb-2 text-xl text-navy">{petName}</h3>
+        <img
+          className="ml-2 w-6 h-6 bg-mediumblue rounded-full"
+          src={taskDog}
+          alt=""
+        />
+      </div>
+      <p className="mb-4 text-base font-light">{task_info}</p>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleClick}
+          className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue "
+        >
+          Done
+        </button>
+      </div>
     </div>
   );
 };
 
 export default TaskCard;
-

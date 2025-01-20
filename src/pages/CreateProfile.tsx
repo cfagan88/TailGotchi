@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supaClient } from "../api/client";
 import { useNavigate } from "react-router-dom";
+import bouncingStar from "../assets/animations and images/bouncing-star.gif";
+import CharacterSelection from "../components/CharacterSelection";
 
 const ProfileCreation: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -41,7 +43,8 @@ const ProfileCreation: React.FC = () => {
 
     const usernameError = validateInput(username, true);
     const nameError = validateInput(name || "", false);
-    const avatarUrlError = validateInput(avatarUrl || "", false);
+    const avatarUrlError =
+      avatarUrl.trim() === "" ? "Please select a character." : null;
 
     if (usernameError || nameError || avatarUrlError) {
       setFormError({
@@ -98,71 +101,80 @@ const ProfileCreation: React.FC = () => {
   };
 
   return (
-    <main className="bg-primarylight flex flex-col space-y-4 justify-center items-center m-auto w-screen h-[75vh]">
-      <h1 className="font-jersey25 text-h2 text-navy">Profile Creation</h1>
-      <div className="rounded-md border-4 border-mediumblue bg-lightblue shadow shadow-navy h-[50%] flex items-center">
-        <form className="m-auto flex flex-col space-y-4">
-          <label>Username:</label>
-          <input
-            type="text"
-            minLength={6}
-            maxLength={30}
-            value={username}
-            className={`bg-primarylight text-navy w-full p-2 mt-1 border ${
-              formError.username ? "border-red-500" : "border-mediumblue"
-            } rounded`}
-            required
-            onChange={(e) => setUsername(e.target.value)}
-            onBlur={() => handleBlur("username", username || "", false)}
-          ></input>
-          {formError.username && (
-            <p className="text-red-500 text-sm">{formError.username}</p>
-          )}
-          <label>Name (optional):</label>
-          <input
-            type="text"
-            maxLength={70}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={() => handleBlur("name", name || "", false)}
-            className={`bg-primarylight text-navy w-full p-2 mt-1 border ${
-              formError.name ? "border-red-500" : "border-mediumblue"
-            } rounded`}
-          ></input>
-          {formError.name && (
-            <p className="text-red-500 text-sm">{formError.name}</p>
-          )}
-          <label>Avatar URL (optional):</label>
-          <input
-            type="text"
-            pattern="https?:\/\/.*\.(jpg|jpeg|png|gif)$"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-            onBlur={() => handleBlur("avatarUrl", avatarUrl || "", false)}
-            className={`bg-primarylight text-navy w-full p-2 mt-1 border ${
-              formError.avatarUrl ? "border-red-500" : "border-mediumblue"
-            } rounded`}
-          ></input>
-          {formError.avatarUrl && (
-            <p className="text-red-500 text-sm">{formError.avatarUrl}</p>
-          )}
-          {formError.message && (
-            <p className="text-red-500 text-sm font-black">
-              {formError.message}
-            </p>
-          )}
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            className="w-auto h-auto bg-primarylight text-navy"
-            value={"Add to Profile"}
-            formTarget="_self"
-          >
-            Submit
-          </button>
-        </form>
+    <div className="p-8 bg-primarylight">
+      <div className="flex text-left">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-navy font-bold">
+          Create Your Profile
+        </h1>
+        <img className="w-10 h-10" src={bouncingStar} alt="bouncing star" />
       </div>
-    </main>
+      <div className="text-left">
+        <p className="mt-2 text-navy text-base md:text-xl">
+          Choose a username that represents you, add your name (if you like),
+          and pick an avatar that suits your style.
+        </p>
+      </div>
+      <main className="text-navy flex flex-col space-y-6 justify-center items-center w-full h-full my-10">
+        <div className="rounded-lg bg-navy text-white w-full  max-w-6xl md:max-w-4xl lg:max-w-3xl p-6">
+          <form className="flex flex-col space-y-6">
+            <label className="text-2xl font-bold">Username:</label>
+            <input
+              type="text"
+              minLength={6}
+              maxLength={30}
+              value={username}
+              className={`bg-white text-navy w-full p-3 border ${
+                formError.username ? "border-red-500" : "border-mediumblue"
+              } rounded-lg`}
+              required
+              onChange={(e) => setUsername(e.target.value)}
+              onBlur={() => handleBlur("username", username || "", true)}
+            />
+            {formError.username && (
+              <p className="text-red-500 text-sm">{formError.username}</p>
+            )}
+
+            <label className="text-2xl font-bold">Name (optional):</label>
+            <input
+              type="text"
+              maxLength={70}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => handleBlur("name", name || "", false)}
+              className={`bg-white text-navy w-full p-3 border ${
+                formError.name ? "border-red-500" : "border-mediumblue"
+              } rounded-lg`}
+            />
+            {formError.name && (
+              <p className="text-red-500 text-sm">{formError.name}</p>
+            )}
+
+            <label className="text-2xl font-bold">Choose your character:</label>
+            <CharacterSelection
+              selectedCharacter={avatarUrl}
+              onSelect={(character) => setAvatarUrl(character)}
+            />
+            {formError.avatarUrl && (
+              <p className="text-red-500 text-sm">{formError.avatarUrl}</p>
+            )}
+
+            {formError.message && (
+              <p className="text-red-500 text-sm font-bold">
+                {formError.message}
+              </p>
+            )}
+
+            <button
+              onClick={handleSubmit}
+              type="submit"
+              className="w-full bg-mediumblue text-white font-bold py-2 px-4 rounded-xl border-2 border-lightblue hover:bg-lightblue hover:border-mediumblue hover:border-2 mx-auto block"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
   );
 };
 

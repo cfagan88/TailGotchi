@@ -1,6 +1,3 @@
-
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import SelectedPet from "../components/SelectedPet";
 
 

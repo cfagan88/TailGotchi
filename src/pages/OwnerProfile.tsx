@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
 import OwnerDetails from "../components/OwnerDetails";
 
 import PetProfiles from "./PetProfiles";

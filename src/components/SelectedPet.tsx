@@ -10,6 +10,7 @@ interface PetCardProp {
 const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [petData, setPetData] = useState<null | Pet[]>(null);
+  const [petCareInfo, setPetCareInfo] = useState("");
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -33,8 +34,10 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
 
       if (data) {
         setPetData(data);
-        console.log(petData);
         setFetchError(null);
+        if (data[0].pet_care_info) {
+          setPetCareInfo(data[0].pet_care_info);
+        }
       }
     };
 
@@ -43,6 +46,35 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
 
   const handleReturn = () => {
     setPetSelect(null);
+  };
+
+  const handleNotesUpdate = async (newPetNotes: string) => {
+    const {
+      data: { user },
+    } = await supaClient.auth.getUser();
+    if (!user) {
+      return;
+    }
+
+    const { data, error } = await supaClient
+      .from("pets")
+      .update({ pet_care_info: newPetNotes })
+      .eq("pet_id", petSelect)
+      .select();
+
+    if (error) {
+      setFetchError("Error trying to update notes");
+
+      console.log(error);
+    }
+
+    if (data) {
+      console.log(data, "update query")
+      if (data[0].pet_care_info) {
+        setPetCareInfo(data[0].pet_care_info);
+      }
+      setFetchError(null);
+    }
   };
 
   return (
@@ -61,9 +93,14 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
             <p className="text-navy">Age: {petData[0].pet_age}</p>
             <p className="text-navy">Breed: {petData[0].breed}</p>
             <p className="text-navy">Gender: {petData[0].gender}</p>
-            <p className="text-navy">Care notes: {petData[0].pet_care_info}</p>
             <p className="text-navy">Pet dislikes: {petData[0].pet_dislikes}</p>
             <p className="text-navy">Pet likes: {petData[0].pet_likes}</p>
+            <input
+              className="bg-lightblue"
+              type="text"
+              value={petCareInfo}
+              onChange={(e) => handleNotesUpdate(e.target.value)}
+            ></input>
           </article>
         </>
       )}

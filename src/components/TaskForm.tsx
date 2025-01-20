@@ -49,6 +49,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
           .select();
         if (data) {
           setSelectedPet(""), setTaskName(""), setTaskInfo("");
+          alert("Task added successfully!");
         }
       } catch (error) {
         console.log("error");
@@ -81,7 +82,9 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
             onChange={(e) => setTaskInfo(e.target.value)}
             className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
           />
-          <label htmlFor="pet_id" className="text-h2 font-jersey25">Assign Pet </label>
+          <label htmlFor="pet_id" className="text-h2 font-jersey25">
+            Assign Pet{" "}
+          </label>
           <br />
           <div className="flex">
             <select
@@ -93,7 +96,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
                 setSelectedPet(e.target.value);
               }}
               defaultValue={""}
-              id='pet_id'
+              id="pet_id"
             >
               <option value={""} hidden disabled>
                 Please Select a Pet
@@ -106,7 +109,9 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
                 );
               })}
             </select>
-            <button className="float-right bg-lightblue hover:bg-mediumblue text-white font-bold py-2 px-4 rounded-2xl w-64 ms-3">Add Task</button>
+            <button className="float-right bg-lightblue hover:bg-mediumblue text-white font-bold py-2 px-4 rounded-2xl w-64 ms-3">
+              Add Task
+            </button>
           </div>
         </div>
       </div>

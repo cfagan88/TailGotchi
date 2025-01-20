@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
-import { MdEmail } from "react-icons/md";
 
 const AboutUs = () => {
   const contactRef = useRef<HTMLDivElement>(null);
@@ -111,7 +110,10 @@ const AboutUs = () => {
             <div className="bg-white shadow-lg p-6 rounded-lg text-center">
               <h3 className="text-2xl font-bold mb-4">Get in Touch:</h3>
               <p className="text-sm sm:text-base md:text-lg mb-2">
-                <span className="font-bold">Email:</span> hello@tailgotchi.com
+                <span className="font-bold">Email:</span>{" "}
+                <a href="mailto:" className="text-mediumblue">
+                  hello@tailgotchi.com
+                </a>
               </p>
               <p className="text-sm sm:text-base md:text-lg">
                 <span className="font-bold">Phone:</span> +44 20 7946 0123

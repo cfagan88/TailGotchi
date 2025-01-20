@@ -126,6 +126,8 @@ const AddPet = () => {
           },
         ]);
 
+        alert("Pet added successfully!");
+
         setPetName("");
         setPetAge(null);
         setBreed(null);

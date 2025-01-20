@@ -14,6 +14,7 @@ import UserExists from "./components/UserExists";
 import PetProfiles from "./pages/PetProfiles";
 import MyTasks from "./pages/MyTasks";
 import ErrorPage from "./pages/ErrorPage";
+import OwnerProfile from "./pages/OwnerProfile";
 
 export default function App() {
   const session = useSession();
@@ -88,6 +89,11 @@ export default function App() {
           <Route
             path="/my-tasks"
             element={session ? <MyTasks /> : <Navigate to="/" />}
+          />
+
+          <Route 
+          path="my-profile"
+          element={session ? <OwnerProfile /> : <Navigate to="/" />}
           />
 
           <Route path="*" element={<ErrorPage />} />

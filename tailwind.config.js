@@ -23,6 +23,8 @@ export default {
       mediumblue: "#0081a7",
       // Hover button colour
       lightblue: "#00afb9",
+      // Gender pink
+      pink: "#C680A7",
       black: colors.black,
       white: colors.white,
       red: colors.red,

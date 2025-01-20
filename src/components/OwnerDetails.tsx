@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { UserProfile } from "../api/global.types";
 import { supaClient } from "../api/client";
 import OwnerEdit from "./OwnerEdit";
+import { CiEdit } from "react-icons/ci";
 
 const OwnerDetails = () => {
   const [fetchError, setFetchError] = useState<null | string>(null);
@@ -39,25 +40,52 @@ const OwnerDetails = () => {
 
   return (
     <>
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p className="text-red-500 text-center">{fetchError}</p>}
       {ownerData && (
         <>
           {!editState ? (
-            <article className="border-2 border-mediumblue bg-lightblue rounded-lg min-w-[20%] max-w-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue">
-              <p className="text-navy">Owner name: {ownerData[0].name}</p>
-              <p className="text-navy">Username: {ownerData[0].username}</p>
+            <article className="bg-white bg-opacity-90 rounded-lg max-w-full shadow-md border-navy border-2 border-opacity-20 my-10 relative p-4 sm:p-6 lg:p-8">
+              <p className="text-navy text-xl font-semibold mb-4">
+                Personal info
+              </p>
+              <p className="text-navy text-base sm:text-lg">
+                <span className="font-bold">Name:</span> {ownerData[0].name}
+              </p>
+              <p className="text-navy text-base sm:text-lg">
+                <span className="font-bold">Username:</span>{" "}
+                {ownerData[0].username}
+              </p>
               {!ownerData[0].avatar_url ? (
-                <p>No profile image</p>
+                <p className="pl-4 py-4 italic text-red-500">
+                  No profile image
+                </p>
               ) : (
-                <img src={ownerData[0].avatar_url}></img>
+                <img
+                  src={ownerData[0].avatar_url}
+                  className="bg-navy max-w-full h-auto rounded-lg mt-4"
+                  alt="Owner Avatar"
+                />
               )}
-              <button onClick={() => setEditState(true)}>Edit profile</button>
+              <button
+                className="absolute top-4 right-4 bg-white bg-opacity-90 rounded-xl text-navy py-2 px-4 shadow-xl flex items-center space-x-2 "
+                onClick={() => setEditState(true)}
+              >
+                <CiEdit className="text-xl" />
+                <span className="text-sm sm:text-base">Edit</span>
+              </button>
             </article>
           ) : (
-            <section className="border-2 border-mediumblue bg-lightblue rounded-lg min-w-[20%] max-w-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue">
-              <h2 className="text-navy">Edit Profile</h2>
+            <section className="bg-primarylight rounded-lg max-w-full sm:max-w-[60%] md:max-w-full lg:max-w-full mx-auto  p-4 my-10">
+              <h2 className="text-navy text-2xl font-semibold mb-4 text-center">
+                Edit Profile
+              </h2>
               <OwnerEdit />
-              <button onClick={() => setEditState(false)}>Cancel</button>
+              <button
+                className="mt-4 bg-mediumblue  text-white font-bold py-2 px-4 rounded-xl hover:bg-lightblue hover:border-mediumblue mx-auto block"
+                onClick={() => setEditState(false)}
+              >
+                Cancel
+              </button>
             </section>
           )}
         </>

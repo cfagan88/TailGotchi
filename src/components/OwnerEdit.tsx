@@ -66,54 +66,62 @@ const OwnerEdit = () => {
 
   return (
     <>
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p className="text-red-500 text-center">{fetchError}</p>}
       {ownerData && (
         <form
           onSubmit={handleEditProfile}
-          className="border-2 border-mediumblue bg-lightblue flex flex-col justify-center rounded-lg min-w-[20%] max-w-[40%] max-h-[40%] min-h-[20%] shadow-md shadow-lightblue"
+          className="bg-white flex flex-col justify-center rounded-lg p-6 border-2 border-navy border-opacity-20 shadow-xl max-w-full sm:max-w-md md:max-w-lg mx-auto my-4"
         >
-          <input
-            type="text"
-            className="bg-mediumblue text-navy"
-            //defaultValue={ownerData[0]?.username}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          {ownerData[0]?.name && ownerData[0]?.avatar_url ? (
-            <>
-              <input
-                type="text"
-                className="bg-mediumblue text-navy"
-                //defaultValue={ownerData[0]?.name}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="text"
-                className="bg-mediumblue text-navy"
-                //defaultValue={ownerData[0]?.avatar_url}
-                value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-              />
-            </>
-          ) : (
-            <>
-              <input
-                type="text"
-                className="bg-mediumblue text-navy"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="text"
-                className="bg-mediumblue text-navy"
-                value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
-              />
-            </>
-          )}
-          <button type="submit" className="bg-lightblue text-navy">
-            Save
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-navy font-semibold mb-2"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              className="text-navy w-full p-2 rounded-lg border border-navy"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="name"
+              className="block text-navy font-semibold mb-2"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              className="text-navy w-full p-2 rounded-lg border border-navy"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="avatarUrl"
+              className="block text-navy font-semibold mb-2"
+            >
+              Avatar URL
+            </label>
+            <input
+              type="text"
+              id="avatarUrl"
+              className="text-navy w-full p-2 rounded-lg border border-navy"
+              value={avatarUrl}
+              onChange={(e) => setAvatarUrl(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-lightblue transition-colors"
+          >
+            Save changes
           </button>
         </form>
       )}

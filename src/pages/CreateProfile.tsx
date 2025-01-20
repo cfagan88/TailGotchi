@@ -100,7 +100,7 @@ const ProfileCreation: React.FC = () => {
   return (
     <main className="bg-primarylight flex flex-col space-y-4 justify-center items-center m-auto w-screen h-[75vh]">
       <h1 className="font-jersey25 text-h2 text-navy">Profile Creation</h1>
-      <div className="rounded-md border-4 border-mediumblue bg-lightblue shadow shadow-navy h-[50%] flex items-center">
+      <div className="rounded-md border-4 border-mediumblue bg-lightblue shadow shadow-navy h-auto flex items-center ">
         <form className="m-auto flex flex-col space-y-4">
           <label>Username:</label>
           <input

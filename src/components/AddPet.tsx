@@ -182,7 +182,7 @@ const AddPet = () => {
               onBlur={() => handleBlur("petName", petName, true)}
             />
             {formError.petName && (
-              <p className="text-red-500 text-sm">{formError.petName}</p>
+              <p className="text-red-500 text-sm mt-3">{formError.petName}</p>
             )}
           </div>
           <div className="flex-1">
@@ -219,7 +219,7 @@ const AddPet = () => {
               onBlur={() => handleBlur("breed", breed || "", false)}
             />
             {formError.breed && (
-              <p className="text-red-500 text-sm">{formError.breed}</p>
+              <p className="text-red-500 text-sm mt-3">{formError.breed}</p>
             )}
           </div>
           <div className="flex-1">
@@ -239,7 +239,7 @@ const AddPet = () => {
               onBlur={() => handleBlur("gender", gender || "", false)}
             />
             {formError.gender && (
-              <p className="text-red-500 text-sm">{formError.gender}</p>
+              <p className="text-red-500 text-sm mt-3">{formError.gender}</p>
             )}
           </div>
         </div>
@@ -265,7 +265,7 @@ const AddPet = () => {
           onBlur={() => handleBlur("likes", likes || "", false)}
         />{" "}
         {formError.likes && (
-          <p className="text-red-500 text-sm">{formError.likes}</p>
+          <p className="text-red-500 text-sm mt-3">{formError.likes}</p>
         )}
         <div className="flex items-center space-x-1 mb-4">
           <label htmlFor="pet-dislikes" className="text-2xl font-bold">
@@ -289,7 +289,7 @@ const AddPet = () => {
           onBlur={() => handleBlur("dislikes", dislikes || "", false)}
         />{" "}
         {formError.dislikes && (
-          <p className="text-red-500 text-sm">{formError.dislikes}</p>
+          <p className="text-red-500 text-sm mt-3">{formError.dislikes}</p>
         )}
         <div className="flex items-center space-x-1 mb-4">
           <label htmlFor="pet-care" className="text-2xl font-bold">
@@ -313,10 +313,12 @@ const AddPet = () => {
           onBlur={() => handleBlur("petCareInfo", petCareInfo || "", false)}
         />{" "}
         {formError.petCareInfo && (
-          <p className="text-red-500 text-sm">{formError.petCareInfo}</p>
+          <p className="text-red-500 text-sm mt-3">{formError.petCareInfo}</p>
         )}
         {formError.message && (
-          <p className="text-red-500 text-sm font-black">{formError.message}</p>
+          <p className="text-red-500 text-sm font-black text-center">
+            {formError.message}
+          </p>
         )}
         <div className="flex justify-center mt-4">
           <button

@@ -10,6 +10,8 @@ interface PetCardProp {
 const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [petData, setPetData] = useState<null | Pet[]>(null);
+  const [colabForm, setColabForm] = useState<boolean>(false);
+  const [colabUsername,setColabUsername]=useState<string>("")
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -45,6 +47,31 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
     setPetSelect(null);
   };
 
+  const handleShowForm = () => {
+    setColabForm(true);
+  };
+
+  const handleSubmit = async (e:React.FormEvent) => {
+    e.preventDefault()
+    setColabForm(false)
+    const userData = await supaClient.from('users_profiles')
+    .select()
+    .eq('username',colabUsername);
+    if(userData.data&&userData.data.length){
+      console.log("correct username")
+      console.log(userData.data[0].user_id, petSelect)
+      try {
+       await supaClient.from('users_pets').insert([{user_id:userData.data[0].user_id, pet_id:petSelect}])
+      }
+      catch (error){
+        console.log(error)
+      }
+      setColabUsername("")
+    }else{
+      console.log("incorrect username")
+    }
+  };
+  
   return (
     <>
       {fetchError && <p>{fetchError}</p>}
@@ -65,6 +92,22 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
             <p className="text-navy">Pet dislikes: {petData[0].pet_dislikes}</p>
             <p className="text-navy">Pet likes: {petData[0].pet_likes}</p>
           </article>
+          {!colabForm ? (
+            <button
+              onClick={handleShowForm}
+              className="bg-lightblue rounded-lg border-2 border-mediumblue"
+            >
+              Add Co-owner
+            </button>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <h2>Colab form</h2>
+              <input required className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`} placeholder="Username" value={colabUsername} onChange={(e)=>{setColabUsername(e.target.value)}}/>
+              <button className="bg-lightblue rounded-lg border-2 border-mediumblue">
+                Add Co-Owner
+              </button>
+            </form>
+          )}
         </>
       )}
     </>

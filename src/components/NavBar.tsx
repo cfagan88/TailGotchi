@@ -28,7 +28,7 @@ const NavBar = () => {
       }
     }
     getCurrentUser();
-  }, []);
+  }, [session]);
 
   async function signOut() {
     const { error } = await supaClient.auth.signOut();
@@ -67,6 +67,11 @@ const NavBar = () => {
         <li>
           <Link to="/add-pet" className="hover:text-mediumblue py-2 sm:py-0">
             Add Pet
+          </Link>
+        </li>
+        <li>
+          <Link to="/my-profile" className="hover:text-mediumblue py-2 sm:py-0">
+            My Profile
           </Link>
         </li>
         <li>

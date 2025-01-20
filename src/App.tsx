@@ -11,9 +11,9 @@ import CreateProfile from "./pages/CreateProfile";
 import useSession from "./hooks/useSession";
 import AddPetPage from "./pages/AddPetPage";
 import UserExists from "./components/UserExists";
-import PetProfiles from "./pages/PetProfiles";
 import MyTasks from "./pages/MyTasks";
 import ErrorPage from "./pages/ErrorPage";
+import OwnerProfile from "./pages/OwnerProfile";
 
 export default function App() {
   const session = useSession();
@@ -81,8 +81,8 @@ export default function App() {
           />
 
           <Route
-            path="/my-pets"
-            element={session ? <PetProfiles /> : <Navigate to="/" />}
+            path="/my-profile"
+            element={session ? <OwnerProfile /> : <Navigate to="/" />}
           />
 
           <Route

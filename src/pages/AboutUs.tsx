@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
+import { MdEmail } from "react-icons/md";
 
 const AboutUs = () => {
   const contactRef = useRef<HTMLDivElement>(null);
@@ -52,7 +53,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="tailgotchi-solutions bg-primarydark text-navy py-12 min-h-[50vh]">
+      <div className="tailgotchi-solutions bg-primarydark text-navy py-12 min-h-[70vh] content-center">
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-12">
           {[
             {
@@ -78,7 +79,7 @@ const AboutUs = () => {
           ].map((solution, index) => (
             <div
               key={index}
-              className="solution-item bg-primarylight p-6 rounded-xl shadow-md"
+              className="solution-item bg-white p-6 rounded-xl shadow-md"
             >
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
                 {solution.title}
@@ -94,15 +95,31 @@ const AboutUs = () => {
       <div
         id="contact-info"
         ref={contactRef}
-        className="bg-primarylight py-16 px-6 md:px-12 min-h-[40vh]"
+        className="bg-primarylight py-16 px-6 md:px-12 min-h-[70vh] content-center text-navy"
       >
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
             Contact Information
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
-            <div className="tailgotchi-location">
-              <h3 className="text-2xl font-bold mb-4">Location</h3>
+          <p className="text-center text-sm sm:text-base md:text-lg mb-12">
+            We'd love to hear from you! Whether you have a question, feedback,
+            or just want to say hello, feel free to reach out. You can contact
+            us via email or phone, and we'll get back to you as soon as
+            possible.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white shadow-lg p-6 rounded-lg text-center">
+              <h3 className="text-2xl font-bold mb-4">Get in Touch:</h3>
+              <p className="text-sm sm:text-base md:text-lg mb-2">
+                <span className="font-bold">Email:</span> hello@tailgotchi.com
+              </p>
+              <p className="text-sm sm:text-base md:text-lg">
+                <span className="font-bold">Phone:</span> +44 20 7946 0123
+              </p>
+            </div>
+
+            <div className="bg-white shadow-lg p-6 rounded-lg text-center">
+              <h3 className="text-2xl font-bold mb-4">Location:</h3>
               <p className="text-sm sm:text-base md:text-lg">
                 Tailgotchi Ltd.
                 <br />
@@ -113,13 +130,12 @@ const AboutUs = () => {
                 United Kingdom
               </p>
             </div>
-            <div className="business-hours">
-              <h3 className="text-2xl font-bold mb-4">Business Hours</h3>
-              <p className="text-sm sm:text-base md:text-lg">
-                <span className="font-bold">Monday - Friday:</span> 9:00 AM -
-                5:00 PM
+            <div className="bg-white shadow-lg p-6 rounded-lg text-center">
+              <h3 className="text-2xl font-bold mb-4">Business Hours:</h3>
+              <p className="text-sm sm:text-base md:text-lg mb-2">
+                <span className="font-bold">Mon - Fri:</span> 9:00 AM - 5:00 PM
               </p>
-              <p className="text-sm sm:text-base md:text-lg">
+              <p className="text-sm sm:text-base md:text-lg mb-2">
                 <span className="font-bold">Saturday:</span> Closed
               </p>
               <p className="text-sm sm:text-base md:text-lg">

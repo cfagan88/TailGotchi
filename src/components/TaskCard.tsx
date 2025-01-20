@@ -44,7 +44,7 @@ const TaskCard = ({ task }: { task: Task }) => {
     });
 
   return (
-    <div className="p-4 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto drop-shadow-lg">
+    <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
       <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
       <div className="flex">
         <h3 className="mb-2 text-xl text-navy">{petName}</h3>
@@ -54,7 +54,7 @@ const TaskCard = ({ task }: { task: Task }) => {
           alt=""
         />
       </div>
-      <p className="mb-4 text-base font-light">{task_info}</p>
+      <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">{task_info}</p>
       <div className="flex justify-end">
         <button
           type="button"

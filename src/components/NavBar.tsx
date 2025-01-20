@@ -75,11 +75,11 @@ const NavBar = () => {
           </Link>
         </li>
         {session && (
-          <div>
-            <li className="text-center">{user}</li>
+          <div className="border-l-2">
+            <li className="text-center font-bold">{user}</li>
             <li className="mt-4 sm:mt-0">
               <button
-                className="bg-lightblue px-4 py-1 text-sm rounded-full font-bold text-white hover:bg-mediumblue"
+                className="px-4 py-1 text-sm  text-white hover:underline"
                 onClick={signOut}
               >
                 Sign out

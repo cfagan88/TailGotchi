@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
 import { Pet } from "../api/global.types";
+import dogNodding from "../assets/animations and images/dog-nodding.gif";
+import EditPet from "./EditPet";
 
 interface PetCardProp {
   petSelect: number;
@@ -12,6 +14,7 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
   const [petData, setPetData] = useState<null | Pet[]>(null);
   const [colabForm, setColabForm] = useState<boolean>(false);
   const [colabUsername,setColabUsername]=useState<string>("")
+  const [editState, setEditState] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -35,13 +38,12 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
 
       if (data) {
         setPetData(data);
-        console.log(petData);
         setFetchError(null);
       }
     };
 
     fetchPets();
-  }, []);
+  }, [petSelect]);
 
   const handleReturn = () => {
     setPetSelect(null);
@@ -74,28 +76,68 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
   
   return (
     <>
-      {fetchError && <p>{fetchError}</p>}
+      {fetchError && <p className="text-red-500">{fetchError}</p>}
       {petData && (
-        <>
-          <button
-            onClick={handleReturn}
-            className="bg-lightblue rounded-lg border-2 border-mediumblue"
-          >
-            return to owner profile
-          </button>
-          <article className="bg-lightblue rounded-lg border-2 border-mediumblue">
-            <p className="text-navy">Name: {petData[0].pet_name}</p>
-            <p className="text-navy">Age: {petData[0].pet_age}</p>
-            <p className="text-navy">Breed: {petData[0].breed}</p>
-            <p className="text-navy">Gender: {petData[0].gender}</p>
-            <p className="text-navy">Care notes: {petData[0].pet_care_info}</p>
-            <p className="text-navy">Pet dislikes: {petData[0].pet_dislikes}</p>
-            <p className="text-navy">Pet likes: {petData[0].pet_likes}</p>
-          </article>
-          {!colabForm ? (
+        <div className="flex flex-col items-center">
+          {!editState ? (
+            <>
+              <button
+                onClick={handleReturn}
+                className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
+              >
+                return to owner profile
+              </button>
+              <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center max-w-md w-full">
+                <img
+                  src={dogNodding}
+                  alt={petData[0].pet_name || "Pet"}
+                  className={`w-32 h-32 object-cover rounded-full border-2 border-navy border-opacity-45 mb-4 ${
+                    petData[0].gender?.toLowerCase() === "female"
+                      ? "bg-pink"
+                      : petData[0].gender?.toLowerCase() === "male"
+                      ? "bg-navy"
+                      : "bg-gray-200"
+                  }`}
+                />
+                <div className="text-navy text-left">
+                  <h2 className="text-2xl font-bold mb-2 text-center">
+                    {petData[0].pet_name || "Unknown"}
+                  </h2>
+                  <p className="mb-2">
+                    <span className="font-bold">Age:</span>{" "}
+                    {petData[0].pet_age || "Unknown"} years old
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-bold">Breed:</span>{" "}
+                    {petData[0].breed || "Unknown"}
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-bold">Gender:</span>{" "}
+                    {petData[0].gender || "Unknown"}
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-bold">Likes:</span>{" "}
+                    {petData[0].pet_likes || "N/A"}
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-bold">Dislikes:</span>{" "}
+                    {petData[0].pet_dislikes || "N/A"}
+                  </p>
+                  <p className="mb-2">
+                    <span className="font-bold">Care Notes:</span>{" "}
+                    {petData[0].pet_care_info || "N/A"}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setEditState(true)}
+                  className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
+                >
+                  Edit profile
+                </button>
+                {!colabForm ? (
             <button
               onClick={handleShowForm}
-              className="bg-lightblue rounded-lg border-2 border-mediumblue"
+              className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
             >
               Add Co-owner
             </button>
@@ -103,12 +145,25 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
             <form onSubmit={handleSubmit}>
               <h2>Colab form</h2>
               <input required className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`} placeholder="Username" value={colabUsername} onChange={(e)=>{setColabUsername(e.target.value)}}/>
-              <button className="bg-lightblue rounded-lg border-2 border-mediumblue">
+              <button className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4">
                 Add Co-Owner
               </button>
             </form>
           )}
-        </>
+              </article>
+            </>
+          ) : (
+            <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center max-w-md w-full">
+              <EditPet petSelect={petSelect} />
+              <button
+                onClick={() => setEditState(false)}
+                className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
+              >
+                Return to pet profile
+              </button>
+            </article>
+          )}
+        </div>
       )}
     </>
   );

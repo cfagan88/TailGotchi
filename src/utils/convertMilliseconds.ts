@@ -9,37 +9,35 @@ type TimeFormat = {
  * Converts milliseconds into various time formats.
  *
  * @param {number} milliseconds - The number of milliseconds to convert.
- * @param {"s" | "m" | "h" | "d" | undefined} format - The format to convert to:
+ * @param {"s" | "m" | "h" | "d"} [format] - The optional format to convert to:
  *   - "s" for total seconds
  *   - "m" for total minutes
  *   - "h" for total hours
  *   - "d" for total days
- *   - undefined for an object with days, hours, minutes, and seconds
+ *   - If not provided, defaults to an object with days, hours, minutes, and seconds.
  * @returns {number | TimeFormat} The converted time in the specified format, or an object with days, hours, minutes, and seconds if no format is specified.
  */
 
 export default function convertMilliseconds(
   milliseconds: number,
-  format: "s" | "m" | "h" | "d" | undefined
+  format?: "s" | "m" | "h" | "d" | undefined
 ): number | TimeFormat {
-  let days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const totalHours = Math.floor(totalMinutes / 60);
+  const days = Math.floor(totalHours / 24);
 
-  total_seconds = Math.floor(milliseconds / 1000);
-  total_minutes = Math.floor(total_seconds / 60);
-  total_hours = Math.floor(total_minutes / 60);
-  days = Math.floor(total_hours / 24);
-
-  seconds = total_seconds % 60;
-  minutes = total_minutes % 60;
-  hours = total_hours % 24;
+  const seconds = totalSeconds % 60;
+  const minutes = totalMinutes % 60;
+  const hours = totalHours % 24;
 
   switch (format) {
     case "s":
-      return total_seconds;
+      return totalSeconds;
     case "m":
-      return total_minutes;
+      return totalMinutes;
     case "h":
-      return total_hours;
+      return totalHours;
     case "d":
       return days;
     default:

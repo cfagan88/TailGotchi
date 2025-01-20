@@ -90,6 +90,11 @@ export default function App() {
             element={session ? <MyTasks /> : <Navigate to="/" />}
           />
 
+          <Route 
+          path="my-profile"
+          element={session ? <OwnerProfile /> : <Navigate to="/" />}
+          />
+
           <Route path="*" element={<ErrorPage />} />
 
         </Routes>

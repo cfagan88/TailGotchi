@@ -136,7 +136,7 @@ const AddPet = () => {
         setDislikes(null);
         setPetCareInfo(null);
 
-        navigate("/my-pets");
+        navigate("/my-profile");
       }
     } catch (error) {
       setFormError({

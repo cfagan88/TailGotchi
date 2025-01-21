@@ -4,9 +4,11 @@ import TaskCard from "./TaskCard";
 import { Task } from "../api/global.types";
 import Lottie from "lottie-react";
 import Loading from "../assets/animations and images/Loading.json";
+import CompletedTaskCard from "./CompletedTaskCard";
 
 const TaskSummary = () => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
+  const [completeTasks, setCompleteTasks] = useState<Task[] | null>([])
   const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
@@ -22,7 +24,19 @@ const TaskSummary = () => {
       data?.sort((a, b) => a.task_id - b.task_id);
       setTasks(data);
       setLoading(false);
+
     }
+    if(user){
+      const { data } = await supaClient
+        .from("tasks")
+        .select("*, pets!inner(*,users_pets!inner(*))")
+        .eq("pets.users_pets.user_id", user.id)
+        .neq("is_completed", false);
+        data?.sort((a, b) => a.task_id - b.task_id);
+        setCompleteTasks(data);
+        setLoading(false);
+    }
+
   };
 
   useEffect(() => {
@@ -50,9 +64,16 @@ const TaskSummary = () => {
         <Lottie animationData={Loading} className="loading-animation size-24" />
       ) : (
         tasks &&
-        tasks.map((task) => {
+        <>
+        {tasks.map((task) => {
           return <TaskCard key={task.task_id} task={task} />;
-        })
+        })}
+        
+        <h1 className="text-2xl text-navy font-bold">Completed Tasks:</h1>
+        {completeTasks && completeTasks.map((completeTask) =>{
+          return <CompletedTaskCard key={completeTask.task_id} completeTask={completeTask} />
+        })}
+        </>
       )}
     </div>
   );

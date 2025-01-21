@@ -48,13 +48,6 @@ const OwnerDetails = () => {
               <p className="text-navy text-xl font-semibold mb-4">
                 Personal info
               </p>
-              <p className="text-navy text-base sm:text-lg">
-                <span className="font-bold">Name:</span> {ownerData[0].name}
-              </p>
-              <p className="text-navy text-base sm:text-lg">
-                <span className="font-bold">Username:</span>{" "}
-                {ownerData[0].username}
-              </p>
               {!ownerData[0].avatar_url ? (
                 <p className="pl-4 py-4 italic text-red-500">
                   No profile image
@@ -62,10 +55,17 @@ const OwnerDetails = () => {
               ) : (
                 <img
                   src={ownerData[0].avatar_url}
-                  className="bg-navy max-w-full h-auto rounded-lg mt-4"
+                  className="w-24 h-24 bg-navy max-w-full rounded-lg my-4"
                   alt="Owner Avatar"
                 />
               )}
+              <p className="text-navy text-base sm:text-lg">
+                <span className="font-bold">Name:</span> {ownerData[0].name}
+              </p>
+              <p className="text-navy text-base sm:text-lg">
+                <span className="font-bold">Username:</span>{" "}
+                {ownerData[0].username}
+              </p>
               <button
                 className="absolute top-4 right-4 bg-white bg-opacity-90 rounded-xl text-navy py-2 px-4 shadow-xl flex items-center space-x-2 "
                 onClick={() => setEditState(true)}

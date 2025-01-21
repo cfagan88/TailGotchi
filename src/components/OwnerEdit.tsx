@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { UserProfile } from "../api/global.types";
 import { supaClient } from "../api/client";
+import CharacterSelection from "./CharacterSelection";
 
 const OwnerEdit = () => {
   const [fetchError, setFetchError] = useState<null | string>(null);
@@ -61,6 +62,7 @@ const OwnerEdit = () => {
     if (data) {
       setOwnerData(data);
       setFetchError(null);
+      alert("Edits successful");
     }
   };
 
@@ -107,14 +109,11 @@ const OwnerEdit = () => {
               htmlFor="avatarUrl"
               className="block text-navy font-semibold mb-2"
             >
-              Avatar URL
+              Avatar
             </label>
-            <input
-              type="text"
-              id="avatarUrl"
-              className="text-navy w-full p-2 rounded-lg border border-navy"
-              value={avatarUrl}
-              onChange={(e) => setAvatarUrl(e.target.value)}
+            <CharacterSelection
+              selectedCharacter={avatarUrl}
+              onSelect={(character) => setAvatarUrl(character)}
             />
           </div>
           <button

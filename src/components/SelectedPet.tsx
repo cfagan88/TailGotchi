@@ -60,8 +60,8 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
     .select()
     .eq('username',colabUsername);
     if(userData.data&&userData.data.length){
-      console.log("correct username")
-      console.log(userData.data[0].user_id, petSelect)
+      // console.log("correct username")
+      // console.log(userData.data[0].user_id, petSelect)
       try {
        await supaClient.from('users_pets').insert([{user_id:userData.data[0].user_id, pet_id:petSelect}])
       }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supaClient } from "../api/client";
 import { Task, Pet } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
+import convertMiliseconds from "../utils/convertMiliseconds";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const {
@@ -12,6 +13,7 @@ const TaskCard = ({ task }: { task: Task }) => {
     task_id,
     task_info,
     task_name,
+    assigned_user,
   } = task;
 
   const [myPets, setMyPets] = useState<Pet[] | null>();
@@ -40,8 +42,20 @@ const TaskCard = ({ task }: { task: Task }) => {
     };
     getData();
   }, []);
-
   const handleCompleteTask = async () => {
+    const {data} = await supaClient
+    .from("users_pets")
+    .select("*, users_profiles!inner(*)")
+    .eq("pet_id", pet_id)
+    .eq("users_profiles.username",assigned_user)
+    if(data){
+      const points=data[0].task_points
+      const user_pet_id=data[0].user_pet_id
+      await supaClient
+      .from('users_pets')
+      .update({task_points:(points+10)})
+      .eq('user_pet_id',user_pet_id)
+    }
     await supaClient
       .from("tasks")
       .update({ is_completed: true, CompletionDate: Date.now() })
@@ -57,15 +71,19 @@ const TaskCard = ({ task }: { task: Task }) => {
     await supaClient.from("tasks").delete().eq("task_id", task_id);
   };
 
-  const handleUpdateDatabase = async (e:React.FormEvent)=>{
-    e.preventDefault()
+  const handleUpdateDatabase = async (e: React.FormEvent) => {
+    e.preventDefault();
     await supaClient
       .from("tasks")
-      .update({ pet_id:taskInfo.pet_id, task_name:taskInfo.task_name, task_info:taskInfo.task_info })
+      .update({
+        pet_id: taskInfo.pet_id,
+        task_name: taskInfo.task_name,
+        task_info: taskInfo.task_info,
+      })
       .eq("task_id", task_id)
       .select();
-    setEditTask(false)
-  }
+    setEditTask(false);
+  };
 
   supaClient
     .from("pets")
@@ -83,16 +101,31 @@ const TaskCard = ({ task }: { task: Task }) => {
       {editTask ? (
         <form onSubmit={handleUpdateDatabase}>
           <div className="p-4 text-navy rounded-xl my-4 bg-primarylight max-w-4xl mx-auto">
-            <h2 className="text-2xl text-navy font-bold" >Task Name</h2>
-            <input required value={taskInfo.task_name} onChange={(e)=>{setTaskInfo({...taskInfo, task_name:e.target.value})}} className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}/>
+            <h2 className="text-2xl text-navy font-bold">Task Name</h2>
+            <input
+              required
+              value={taskInfo.task_name}
+              onChange={(e) => {
+                setTaskInfo({ ...taskInfo, task_name: e.target.value });
+              }}
+              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+            />
             <h2 className="text-2xl text-navy font-bold">Task Information</h2>
-            <input value={taskInfo.task_info?taskInfo.task_info:""} onChange={(e)=>{setTaskInfo({...taskInfo, task_info:e.target.value})}} className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}/>
-            <h2 className="text-2xl text-navy font-bold" >Pet Name</h2>
+            <input
+              value={taskInfo.task_info ? taskInfo.task_info : ""}
+              onChange={(e) => {
+                setTaskInfo({ ...taskInfo, task_info: e.target.value });
+              }}
+              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+            />
+            <h2 className="text-2xl text-navy font-bold">Pet Name</h2>
             <select
               required
               className={`w-full p-2  border  rounded bg-white text-navy`}
               value={taskInfo.pet_id}
-              onChange={(e)=>{setTaskInfo({...taskInfo,pet_id:Number(e.target.value)})}}
+              onChange={(e) => {
+                setTaskInfo({ ...taskInfo, pet_id: Number(e.target.value) });
+              }}
             >
               <option value={""} hidden disabled>
                 Please Select a Pet
@@ -105,7 +138,9 @@ const TaskCard = ({ task }: { task: Task }) => {
                 );
               })}
             </select>
-            <button className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue">Complete</button>
+            <button className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue">
+              Complete
+            </button>
           </div>
         </form>
       ) : (
@@ -119,7 +154,12 @@ const TaskCard = ({ task }: { task: Task }) => {
               alt="Animation of nodding dog"
             />
           </div>
-          <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">{task_info}</p>
+          <h3 className="mb-2 text-xl text-navy">
+            Assigned to: {assigned_user}
+          </h3>
+          <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">
+            {task_info}
+          </p>
           <div className="flex justify-end">
             <button
               type="button"

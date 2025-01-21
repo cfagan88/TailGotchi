@@ -43,10 +43,10 @@ const NavBar = () => {
       <div className="sm:hidden flex justify-end">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="text-lightblue p-2"
+          className="text-actuallightblue p-2"
           aria-label="Open menu on mobile only"
         >
-          <GiHamburgerMenu className="w-6 h-6  text-lightblue" />
+          <GiHamburgerMenu className="w-6 h-6  text-actuallightblue" />
         </button>
       </div>
 

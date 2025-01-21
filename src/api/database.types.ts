@@ -54,6 +54,7 @@ export type Database = {
           task_id: number;
           task_info: string | null;
           task_name: string;
+          assigned_user:string;
         };
         Insert: {
           CompletionDate?: number | null;
@@ -63,6 +64,7 @@ export type Database = {
           task_id?: number;
           task_info?: string | null;
           task_name: string;
+          assigned_user:string;
         };
         Update: {
           CompletionDate?: number | null;
@@ -72,6 +74,7 @@ export type Database = {
           task_id?: number;
           task_info?: string | null;
           task_name?: string;
+          assigned_user?:string;
         };
         Relationships: [
           {
@@ -100,16 +103,19 @@ export type Database = {
           pet_id: number;
           user_id: string;
           user_pet_id: number;
+          task_points:number;
         };
         Insert: {
           pet_id: number;
           user_id: string;
           user_pet_id?: number;
+          task_points:number;
         };
         Update: {
           pet_id?: number;
           user_id?: string;
           user_pet_id?: number;
+          task_points?:number;
         };
         Relationships: [
           {

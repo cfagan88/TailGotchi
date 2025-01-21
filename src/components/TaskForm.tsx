@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
-import { Pet } from "../api/global.types";
+import { Pet, UserProfile } from "../api/global.types";
+// import { GiOldWagon } from "react-icons/gi";
 
 interface ComponentProps {
   setShowForm: Function;
@@ -11,6 +12,8 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
   const [taskName, setTaskName] = useState<string>("");
   const [taskInfo, setTaskInfo] = useState<string>("");
   const [selectedPet, setSelectedPet] = useState<string>("");
+  const [selectUserDropdown, setSelectUserDropdown] = useState<string>("");
+  const [petOwners,setPetOwners]=useState<UserProfile[]|null>()
 
   useEffect(() => {
     const getData = async () => {
@@ -24,9 +27,12 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
           .eq("users_pets.user_id", user.id);
         setMyPets(data);
       }
+      const userData = await supaClient.from("users_profiles").select('*,users_pets!inner(*)')
+      .eq('users_pets.pet_id', Number(selectedPet));
+      setPetOwners(userData.data)
     };
     getData();
-  }, []);
+  }, [selectedPet]);
 
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +50,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               CreationDate: Date.now(),
               CompletionDate: null,
               is_completed: false,
+              assigned_user:selectUserDropdown
             },
           ])
           .select();
@@ -83,28 +90,52 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
             className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
           />
           <label htmlFor="pet_id" className="text-h2 font-jersey25">
-            Assign Pet{" "}
+            Assign pet{" "}
           </label>
+          <select
+            required
+            className={`w-full p-2  border ${
+              selectedPet ? "border-mediumblue" : "border-red-500"
+            } rounded bg-white text-navy`}
+            onChange={(e) => {
+              setSelectedPet(e.target.value);
+              setSelectUserDropdown("")
+            }}
+            value={selectedPet}
+            id="pet_id"
+          >
+            <option value={""} hidden disabled>
+              Please Select a Pet
+            </option>
+            {myPets?.map((pet) => {
+              return (
+                <option key={pet.pet_name} value={pet.pet_id}>
+                  {pet.pet_name}
+                </option>
+              );
+            })}
+          </select>
           <br />
+          <label className="text-h2 font-jersey25">Assign task to</label>
           <div className="flex">
             <select
               required
               className={`w-full p-2  border ${
-                selectedPet ? "border-mediumblue" : "border-red-500"
+                selectUserDropdown ? "border-mediumblue" : "border-red-500"
               } rounded bg-white text-navy`}
               onChange={(e) => {
-                setSelectedPet(e.target.value);
+                setSelectUserDropdown(e.target.value);
               }}
-              defaultValue={""}
+              value={selectUserDropdown}
               id="pet_id"
             >
               <option value={""} hidden disabled>
-                Please Select a Pet
+                Please Select An Owner
               </option>
-              {myPets?.map((pet) => {
+              {petOwners?.map((owner) => {
                 return (
-                  <option key={pet.pet_name} value={pet.pet_id}>
-                    {pet.pet_name}
+                  <option key={owner.username} value={owner.username}>
+                    {owner.username}
                   </option>
                 );
               })}

@@ -45,7 +45,7 @@ const TaskSummary = () => {
   }, []);
 
   return (
-    <div>
+    <div id="tasks-main">
       {loading ? (
         <Lottie animationData={Loading} className="loading-animation size-24" />
       ) : (

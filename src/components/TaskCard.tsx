@@ -150,7 +150,7 @@ const TaskCard = ({ task }: { task: Task }) => {
             <img
               className="ml-2 w-6 h-6 bg-mediumblue rounded-full"
               src={taskDog}
-              alt=""
+              alt="Animation of nodding dog"
             />
           </div>
           <h3 className="mb-2 text-xl text-navy">

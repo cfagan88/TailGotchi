@@ -19,7 +19,7 @@ const TaskSummary = () => {
         .select("*, pets!inner(*,users_pets!inner(*))")
         .eq("pets.users_pets.user_id", user.id)
         .neq("is_completed", true);
-      data?.sort((a, b) => a.task_id - b.task_id);
+      data?.sort((a, b) => a.DueDate - b.DueDate);
       setTasks(data);
       setLoading(false);
     }

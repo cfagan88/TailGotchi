@@ -27,7 +27,7 @@ export default function convertMiliseconds(
   total_seconds = Number(Math.floor(miliseconds / 1000));
   total_minutes = Number(Math.floor(total_seconds / 60));
   total_hours = Number(Math.floor(total_minutes / 60));
-  days = Number(Math.floor(total_hours / 24));
+  days = Number(Math.ceil(total_hours / 24));
 
   seconds = Number(total_seconds % 60);
   minutes = Number(total_minutes % 60);

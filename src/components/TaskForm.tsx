@@ -3,13 +3,8 @@ import { supaClient } from "../api/client";
 import { Pet, UserProfile } from "../api/global.types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import { GiOldWagon } from "react-icons/gi";
 
-interface ComponentProps {
-  setShowForm: Function;
-}
-
-const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
+const TaskForm = () => {
   const [myPets, setMyPets] = useState<Pet[] | null>();
   const [taskName, setTaskName] = useState<string>("");
   const [taskInfo, setTaskInfo] = useState<string>("");
@@ -67,7 +62,6 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
       } catch (error) {
         console.log("error");
       }
-      setShowForm(false);
     }
   };
   return (

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
 import TaskCard from "./TaskCard";
 import { Task } from "../api/global.types";
+import Lottie from "lottie-react";
+import Loading from "../assets/animations and images/Loading.json";
 
 const TaskSummary = () => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
@@ -45,7 +47,7 @@ const TaskSummary = () => {
   return (
     <div>
       {loading ? (
-        <p>loading tasks</p>
+        <Lottie animationData={Loading} className="loading-animation size-24" />
       ) : (
         tasks &&
         tasks.map((task) => {

@@ -41,18 +41,18 @@ const TaskCard = ({ task }: { task: Task }) => {
     getData();
   }, []);
   const handleCompleteTask = async () => {
-    const {data} = await supaClient
-    .from("users_pets")
-    .select("*, users_profiles!inner(*)")
-    .eq("pet_id", pet_id)
-    .eq("users_profiles.username",assigned_user)
-    if(data){
-      const points=data[0].task_points
-      const user_pet_id=data[0].user_pet_id
+    const { data } = await supaClient
+      .from("users_pets")
+      .select("*, users_profiles!inner(*)")
+      .eq("pet_id", pet_id)
+      .eq("users_profiles.username", assigned_user);
+    if (data) {
+      const points = data[0].task_points;
+      const user_pet_id = data[0].user_pet_id;
       await supaClient
-      .from('users_pets')
-      .update({task_points:(points+10)})
-      .eq('user_pet_id',user_pet_id)
+        .from("users_pets")
+        .update({ task_points: points + 10 })
+        .eq("user_pet_id", user_pet_id);
     }
     await supaClient
       .from("tasks")
@@ -143,8 +143,25 @@ const TaskCard = ({ task }: { task: Task }) => {
         </form>
       ) : (
         <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
-          <h2 className="text-2xl text-navy font-bold">{task_name} - {task_difficulty}</h2>
-          <h2 className="mb-2 text-xl text-navy">Due Date: {new Date(DueDate).toDateString()}</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+            <p
+              className={`p-2 w-1/6 text-white text-center font-bold rounded-xl ${
+                task_difficulty?.toLowerCase() === "easy"
+                  ? "bg-green-400"
+                  : task_difficulty?.toLowerCase() === "medium"
+                  ? "bg-orange-400"
+                  : task_difficulty?.toLowerCase() === "hard"
+                  ? "bg-red-400"
+                  : "bg-white"
+              }`}
+            >
+              {task_difficulty}
+            </p>
+          </div>
+          <h2 className="mb-2 text-xl text-navy">
+            Due Date: {new Date(DueDate).toDateString()}
+          </h2>
           <div className="flex">
             <h3 className="mb-2 text-xl text-navy">{petName}</h3>
             <img

@@ -18,6 +18,7 @@ const Footer = () => {
               to="https://www.linkedin.com/"
               target="_blank"
               className="bg-mediumblue rounded-full p-3 sm:p-4 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center"
+              aria-label="Link to our LinkedIn page"
             >
               <FaLinkedin className="text-white text-xl sm:text-2xl" />
             </Link>
@@ -25,6 +26,7 @@ const Footer = () => {
               to="https://www.facebook.com/"
               target="_blank"
               className="bg-mediumblue rounded-full p-3 sm:p-4 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center"
+              aria-label="Link to our Facebook page"
             >
               <FaFacebook className="text-white text-xl sm:text-2xl" />
             </Link>
@@ -32,6 +34,7 @@ const Footer = () => {
               to="https://www.instagram.com/"
               target="_blank"
               className="bg-mediumblue rounded-full p-3 sm:p-4 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center"
+              aria-label="Link to our Instagram page"
             >
               <FaInstagram className="text-white text-xl sm:text-2xl" />
             </Link>

@@ -44,6 +44,7 @@ const NavBar = () => {
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="text-lightblue p-2"
+          aria-label="Open menu on mobile only"
         >
           <GiHamburgerMenu className="w-6 h-6  text-lightblue" />
         </button>

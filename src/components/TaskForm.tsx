@@ -3,6 +3,7 @@ import { supaClient } from "../api/client";
 import { Pet, UserProfile } from "../api/global.types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getTask } from "../api/groq/getTask";
 // import { GiOldWagon } from "react-icons/gi";
 
 interface ComponentProps {
@@ -17,7 +18,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
   const [selectUserDropdown, setSelectUserDropdown] = useState<string>("");
   const [petOwners, setPetOwners] = useState<UserProfile[] | null>();
   const [date, setDate] = useState<Date | null>(new Date());
-  const [difficulty,setDifficulty]=useState<string>("")
+  const [difficulty, setDifficulty] = useState<string>("");
 
   useEffect(() => {
     const getData = async () => {
@@ -39,9 +40,19 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
     };
     getData();
   }, [selectedPet]);
+
+  const handleGenerateTask = async () => {
+    if (!selectedPet) return;
+    const petData = await getTask(selectedPet);
+    if (petData.tasks && petData.tasks.length > 0) {
+      setTaskName(petData.tasks[0].task_name);
+      setTaskInfo(petData.tasks[0].task_info);
+    }
+  };
+
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!taskName || !selectedPet||!date) {
+    if (!taskName || !selectedPet || !date) {
     } else {
       try {
         const { data } = await supaClient
@@ -55,8 +66,8 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               CompletionDate: null,
               is_completed: false,
               assigned_user: selectUserDropdown,
-              DueDate:date.getTime(),
-              task_difficulty:difficulty,
+              DueDate: date.getTime(),
+              task_difficulty: difficulty,
             },
           ])
           .select();
@@ -78,6 +89,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
       <div className="flex space-x-4">
         <div className="flex-1">
           <h2 className="text-h2 font-jersey25">Create task</h2>
+
           <input
             type="text"
             placeholder="Task Name"
@@ -88,6 +100,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               taskName ? "border-mediumblue" : "border-red-500"
             } rounded bg-white text-navy`}
           />
+
           <input
             type="text"
             placeholder="Task Description"
@@ -95,6 +108,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
             onChange={(e) => setTaskInfo(e.target.value)}
             className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
           />
+
           <label className="text-h2 font-jersey25">
             Assign a completion date
           </label>
@@ -107,18 +121,21 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
             />
           </div>
+
           <div>
-          <label className="text-h2 font-jersey25">
-            Assign a task difficulty
-          </label>
-          <select required
-            className={`w-full p-2  border ${
-              difficulty ? "border-mediumblue" : "border-red-500"
-            } rounded bg-white text-navy`}
-            onChange={(e) => {
-              setDifficulty(e.target.value);
-            }}
-            value={difficulty}>
+            <label className="text-h2 font-jersey25">
+              Assign a task difficulty
+            </label>
+            <select
+              required
+              className={`w-full p-2  border ${
+                difficulty ? "border-mediumblue" : "border-red-500"
+              } rounded bg-white text-navy`}
+              onChange={(e) => {
+                setDifficulty(e.target.value);
+              }}
+              value={difficulty}
+            >
               <option value={""} hidden disabled>
                 Please Select A Difficulty
               </option>
@@ -127,6 +144,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               <option value={"Hard"}>Hard</option>
             </select>
           </div>
+
           <label htmlFor="pet_id" className="text-h2 font-jersey25">
             Assign pet{" "}
           </label>
@@ -153,7 +171,9 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               );
             })}
           </select>
+
           <br />
+
           <label className="text-h2 font-jersey25">Assign task to</label>
           <div className="flex">
             <select
@@ -177,6 +197,15 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
                 );
               })}
             </select>
+
+            <button
+              type="button"
+              onClick={handleGenerateTask}
+              className="float-right bg-lightblue hover:bg-mediumblue text-white font-bold py-2 px-4 rounded-2xl w-64 ms-3"
+            >
+              Generate Task
+            </button>
+
             <button className="float-right bg-lightblue hover:bg-mediumblue text-white font-bold py-2 px-4 rounded-2xl w-64 ms-3">
               Add Task
             </button>

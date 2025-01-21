@@ -3,7 +3,11 @@ import { UserProfile } from "../api/global.types";
 import { supaClient } from "../api/client";
 import CharacterSelection from "./CharacterSelection";
 
-const OwnerEdit = () => {
+interface EditStateProps {
+  setEditState: Function;
+}
+
+const OwnerEdit: React.FC<EditStateProps> = ({setEditState}) => {
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [ownerData, setOwnerData] = useState<null | UserProfile[]>(null);
   const [username, setUsername] = useState("");
@@ -63,6 +67,7 @@ const OwnerEdit = () => {
       setOwnerData(data);
       setFetchError(null);
       alert("Edits successful");
+      setEditState(false)
     }
   };
 

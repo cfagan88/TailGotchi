@@ -36,7 +36,7 @@ const OwnerDetails = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [editState]);
 
   return (
     <>
@@ -79,7 +79,7 @@ const OwnerDetails = () => {
               <h2 className="text-navy text-2xl font-semibold mb-4 text-center">
                 Edit Profile
               </h2>
-              <OwnerEdit />
+              <OwnerEdit setEditState={setEditState} />
               <button
                 className="mt-4 bg-mediumblue  text-white font-bold py-2 px-4 rounded-xl hover:bg-lightblue hover:border-mediumblue mx-auto block"
                 onClick={() => setEditState(false)}

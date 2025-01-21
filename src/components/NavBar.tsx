@@ -79,11 +79,6 @@ const NavBar = () => {
             My Tasks
           </Link>
         </li>
-        <li>
-          <Link to="/my-profile" className="hover:text-mediumblue py-2 sm:py-0">
-            My Profile
-          </Link>
-        </li>
 
         {session && (
           <div className="border-l-2">

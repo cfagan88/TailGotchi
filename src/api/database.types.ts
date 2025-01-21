@@ -55,6 +55,8 @@ export type Database = {
           task_info: string | null;
           task_name: string;
           assigned_user:string;
+          DueDate:number;
+          task_difficulty:string;
         };
         Insert: {
           CompletionDate?: number | null;
@@ -65,6 +67,8 @@ export type Database = {
           task_info?: string | null;
           task_name: string;
           assigned_user:string;
+          DueDate:number;
+          task_difficulty:string;
         };
         Update: {
           CompletionDate?: number | null;
@@ -75,6 +79,8 @@ export type Database = {
           task_info?: string | null;
           task_name?: string;
           assigned_user?:string;
+          DueDate?:number;
+          task_difficulty?:string;
         };
         Relationships: [
           {

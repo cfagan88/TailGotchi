@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
 import { Pet, UserProfile } from "../api/global.types";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // import { GiOldWagon } from "react-icons/gi";
 
 interface ComponentProps {
@@ -13,7 +15,9 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
   const [taskInfo, setTaskInfo] = useState<string>("");
   const [selectedPet, setSelectedPet] = useState<string>("");
   const [selectUserDropdown, setSelectUserDropdown] = useState<string>("");
-  const [petOwners,setPetOwners]=useState<UserProfile[]|null>()
+  const [petOwners, setPetOwners] = useState<UserProfile[] | null>();
+  const [date, setDate] = useState<Date | null>(new Date());
+  const [difficulty,setDifficulty]=useState<string>("")
 
   useEffect(() => {
     const getData = async () => {
@@ -27,17 +31,17 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
           .eq("users_pets.user_id", user.id);
         setMyPets(data);
       }
-      const userData = await supaClient.from("users_profiles").select('*,users_pets!inner(*)')
-      .eq('users_pets.pet_id', Number(selectedPet));
-      setPetOwners(userData.data)
+      const userData = await supaClient
+        .from("users_profiles")
+        .select("*,users_pets!inner(*)")
+        .eq("users_pets.pet_id", Number(selectedPet));
+      setPetOwners(userData.data);
     };
     getData();
   }, [selectedPet]);
-
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!taskName || !selectedPet) {
-      console.log("error", taskName, selectedPet);
+    if (!taskName || !selectedPet||!date) {
     } else {
       try {
         const { data } = await supaClient
@@ -50,7 +54,9 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
               CreationDate: Date.now(),
               CompletionDate: null,
               is_completed: false,
-              assigned_user:selectUserDropdown
+              assigned_user: selectUserDropdown,
+              DueDate:date.getTime(),
+              task_difficulty:difficulty,
             },
           ])
           .select();
@@ -89,6 +95,38 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
             onChange={(e) => setTaskInfo(e.target.value)}
             className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
           />
+          <label className="text-h2 font-jersey25">
+            Assign a completion date
+          </label>
+          <div>
+            <DatePicker
+              selected={date}
+              onChange={(date) => {
+                setDate(date);
+              }}
+              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+            />
+          </div>
+          <div>
+          <label className="text-h2 font-jersey25">
+            Assign a task difficulty
+          </label>
+          <select required
+            className={`w-full p-2  border ${
+              difficulty ? "border-mediumblue" : "border-red-500"
+            } rounded bg-white text-navy`}
+            onChange={(e) => {
+              setDifficulty(e.target.value);
+            }}
+            value={difficulty}>
+              <option value={""} hidden disabled>
+                Please Select A Difficulty
+              </option>
+              <option value={"Easy"}>Easy</option>
+              <option value={"Medium"}>Medium</option>
+              <option value={"Hard"}>Hard</option>
+            </select>
+          </div>
           <label htmlFor="pet_id" className="text-h2 font-jersey25">
             Assign pet{" "}
           </label>
@@ -99,7 +137,7 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
             } rounded bg-white text-navy`}
             onChange={(e) => {
               setSelectedPet(e.target.value);
-              setSelectUserDropdown("")
+              setSelectUserDropdown("");
             }}
             value={selectedPet}
             id="pet_id"
@@ -127,7 +165,6 @@ const TaskForm: React.FC<ComponentProps> = ({ setShowForm }) => {
                 setSelectUserDropdown(e.target.value);
               }}
               value={selectUserDropdown}
-              id="pet_id"
             >
               <option value={""} hidden disabled>
                 Please Select An Owner

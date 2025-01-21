@@ -116,7 +116,7 @@ const TaskCard = ({ task }: { task: Task }) => {
             <img
               className="ml-2 w-6 h-6 bg-mediumblue rounded-full"
               src={taskDog}
-              alt=""
+              alt="Animation of nodding dog"
             />
           </div>
           <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">{task_info}</p>

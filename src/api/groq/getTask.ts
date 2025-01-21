@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: process.env.VITE_GROQ_API_KEY,
+  apiKey: (import.meta as any).env.VITE_GROQ_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
@@ -51,15 +51,15 @@ export async function getTask(pet_name: string) {
     messages: [
       {
         role: "system",
-        content: `You are a pet care database that outputs tasks for pet owners in JSON.\n'The JSON object must use the schema: ${jsonSchema}`,
+        content: `You are a pet care expert that outputs randomly generated tasks for pet owners in JSON, the task_info section should be brief and should not refer to the pet by name.\nThe JSON object must use the schema: ${jsonSchema}`,
       },
       {
         role: "user",
-        content: `Fetch a task for ${pet_name}`,
+        content: `Fetch a new random task for ${pet_name}`,
       },
     ],
     model: "llama-3.3-70b-versatile",
-    temperature: 0,
+    temperature: 1.0, // Increase temperature to ensure more randomness
     stream: false,
     response_format: { type: "json_object" },
   });

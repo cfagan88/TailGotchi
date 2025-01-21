@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import { supaClient } from "../api/client";
 import { Task, Pet } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
-import convertMiliseconds from "../utils/convertMiliseconds";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const {
-    // completed_at,
-    // created_at,
-    // is_completed,
     pet_id,
     task_id,
     task_info,
     task_name,
     assigned_user,
+    DueDate,
+    task_difficulty,
   } = task;
 
   const [myPets, setMyPets] = useState<Pet[] | null>();
@@ -145,7 +143,8 @@ const TaskCard = ({ task }: { task: Task }) => {
         </form>
       ) : (
         <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
-          <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+          <h2 className="text-2xl text-navy font-bold">{task_name} - {task_difficulty}</h2>
+          <h2 className="mb-2 text-xl text-navy">Due Date: {new Date(DueDate).toDateString()}</h2>
           <div className="flex">
             <h3 className="mb-2 text-xl text-navy">{petName}</h3>
             <img

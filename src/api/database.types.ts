@@ -74,7 +74,7 @@ export type Database = {
           task_id?: number;
           task_info?: string | null;
           task_name?: string;
-          assigned_user:string;
+          assigned_user?:string;
         };
         Relationships: [
           {
@@ -115,7 +115,7 @@ export type Database = {
           pet_id?: number;
           user_id?: string;
           user_pet_id?: number;
-          task_points:number;
+          task_points?:number;
         };
         Relationships: [
           {

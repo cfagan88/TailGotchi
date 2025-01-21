@@ -115,7 +115,7 @@ export type Database = {
           pet_id: number;
           user_id: string;
           user_pet_id?: number;
-          task_points:number;
+          task_points?:number;
         };
         Update: {
           pet_id?: number;

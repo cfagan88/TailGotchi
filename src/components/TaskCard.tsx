@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supaClient } from "../api/client";
 import { Task, Pet } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
+import handlePointCalculation from "../utils/handlePointCalculation";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const {
@@ -19,12 +20,6 @@ const TaskCard = ({ task }: { task: Task }) => {
   const [editTask, setEditTask] = useState<boolean>(false);
   const [taskInfo, setTaskInfo] = useState<Task>(task);
 
-  //   need to see if we can find difference between current date and created_at date for task
-  //   created_at will now be using Date.now().  can compare the differences between the two and change into how many days its been since creation
-  //   const dateNow=Date.now()
-  //   const myDate=new Date(dateNow) - this changes epoch time to date format
-  //   console.log(myDate)
-
   useEffect(() => {
     const getData = async () => {
       const {
@@ -40,19 +35,17 @@ const TaskCard = ({ task }: { task: Task }) => {
     };
     getData();
   }, []);
+
   const handleCompleteTask = async () => {
-    const {data} = await supaClient
-    .from("users_pets")
-    .select("*, users_profiles!inner(*)")
-    .eq("pet_id", pet_id)
-    .eq("users_profiles.username",assigned_user)
-    if(data){
-      const points=data[0].task_points
-      const user_pet_id=data[0].user_pet_id
-      await supaClient
-      .from('users_pets')
-      .update({task_points:(points+10)})
-      .eq('user_pet_id',user_pet_id)
+    const { data } = await supaClient
+      .from("users_pets")
+      .select("*, users_profiles!inner(*)")
+      .eq("pet_id", pet_id)
+      .eq("users_profiles.username", assigned_user);
+    if (data) {
+      const points = data[0].task_points;
+      const user_pet_id = data[0].user_pet_id;
+      handlePointCalculation(points, user_pet_id, DueDate, task_difficulty);
     }
     await supaClient
       .from("tasks")
@@ -143,8 +136,12 @@ const TaskCard = ({ task }: { task: Task }) => {
         </form>
       ) : (
         <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
-          <h2 className="text-2xl text-navy font-bold">{task_name} - {task_difficulty}</h2>
-          <h2 className="mb-2 text-xl text-navy">Due Date: {new Date(DueDate).toDateString()}</h2>
+          <h2 className="text-2xl text-navy font-bold">
+            {task_name} - {task_difficulty}
+          </h2>
+          <h2 className="mb-2 text-xl text-navy">
+            Due Date: {new Date(DueDate).toDateString()}
+          </h2>
           <div className="flex">
             <h3 className="mb-2 text-xl text-navy">{petName}</h3>
             <img

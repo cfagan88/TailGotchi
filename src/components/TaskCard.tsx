@@ -144,7 +144,7 @@ const TaskCard = ({ task }: { task: Task }) => {
       ) : (
         <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
           <h2 className="text-2xl text-navy font-bold">{task_name} - {task_difficulty}</h2>
-          <h2 className="mb-2 text-xl text-navy">Due Date: {String(new Date(DueDate).toDateString())}</h2>
+          <h2 className="mb-2 text-xl text-navy">Due Date: {new Date(DueDate).toDateString()}</h2>
           <div className="flex">
             <h3 className="mb-2 text-xl text-navy">{petName}</h3>
             <img

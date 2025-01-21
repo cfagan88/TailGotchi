@@ -1,7 +1,7 @@
-import { Database } from "./database.types";
+import { Tables } from "./database.types";
 
-export type Task = Database["public"]["Tables"]["tasks"]["Row"];
+export type Task = Tables<"tasks">;
 
-export type Pet = Database["public"]["Tables"]["pets"]["Row"];
+export type Pet = Tables<"pets">;
 
-export type UserProfile = Database["public"]["Tables"]["users_profiles"]["Row"];
+export type UserProfile = Tables<"users_profiles">;

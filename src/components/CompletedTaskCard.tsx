@@ -16,7 +16,7 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
 
   const [myPets, setMyPets] = useState<Pet[] | null>();
   const [petName, setPetName] = useState<string>("");
-  const [taskInfo, setTaskInfo] = useState<Task>(completeTask);
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -34,6 +34,18 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
     getData();
   }, []);
 
+
+  supaClient
+      .from("pets")
+      .select("pet_name")
+      .eq("pet_id", pet_id)
+      .then(({ data }) => {
+        if (data) {
+          setPetName(data[0].pet_name);
+          return;
+        }
+      });
+      
   return (
     <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
       <h2 className="text-2xl text-navy font-bold line-through">

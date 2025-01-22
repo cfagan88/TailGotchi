@@ -56,7 +56,12 @@ const TaskForm = () => {
           ])
           .select();
         if (data) {
-          setSelectedPet(""), setTaskName(""), setTaskInfo("");
+          setSelectedPet(""),
+          setTaskName(""),
+          setTaskInfo(""),
+          setDifficulty("");
+          setSelectUserDropdown(""), 
+          setDate(new Date());
           alert("Task added successfully!");
         }
       } catch (error) {

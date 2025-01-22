@@ -13,18 +13,19 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
   } = completeTask;
 
   const [petName, setPetName] = useState<string>("");
-  
+  const [petGender, setPetGender] = useState<string | null>("");
 
   supaClient
-      .from("pets")
-      .select("pet_name")
-      .eq("pet_id", pet_id)
-      .then(({ data }) => {
-        if (data) {
-          setPetName(data[0].pet_name);
-          return;
-        }
-      });
+    .from("pets")
+    .select("pet_name, gender")
+    .eq("pet_id", pet_id)
+    .then(({ data }) => {
+      if (data) {
+        setPetName(data[0].pet_name);
+        setPetGender(data[0].gender)
+        return;
+      }
+    });
       
   return (
     <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
@@ -50,10 +51,18 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
       <div className="flex">
         <h3 className="mb-2 text-xl text-navy">{petName}</h3>
         <img
-          className="ml-2 w-6 h-6 bg-mediumblue rounded-full"
-          src={taskDog}
-          alt="Animation of nodding dog"
-        />
+              src={taskDog}
+              alt={petName || "Pet"}
+              className={
+                `ml-2 w-6 h-6 object-cover rounded-full border-2 border-navy border-opacity-45 mb-4 mx-auto ${
+                  petGender?.toLowerCase() === "female"
+                    ? "bg-pink"
+                    : petGender?.toLowerCase() === "male"
+                    ? "bg-navy"
+                    : "bg-gray-200"
+                }`
+              }
+            />
       </div>
       <h3 className="mb-2 text-xl text-navy">Assigned to: {assigned_user}</h3>
       <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">

@@ -127,6 +127,7 @@ const TaskForm = () => {
               } rounded bg-white text-navy`}
               onChange={(e) => {
                 setDifficulty(e.target.value);
+                setFormError({...formError, taskDifficulty:null})
               }}
               value={difficulty}
               onBlur={()=>{handleBlur("taskDifficulty", difficulty, true, setFormError)}}
@@ -148,14 +149,16 @@ const TaskForm = () => {
           <select
             required
             className={`w-full p-2  border ${
-              selectedPet ? "border-mediumblue" : "border-red-500"
+              formError.pet ?"border-red-500" : "border-mediumblue"
             } rounded bg-white text-navy`}
             onChange={(e) => {
               setSelectedPet(e.target.value);
               setSelectUserDropdown("");
+              setFormError({...formError, pet:null})
             }}
             value={selectedPet}
             id="pet_id"
+            onBlur={()=>{handleBlur('pet', selectedPet?"true":"", true, setFormError)}}
           >
             <option value={""} hidden disabled>
               Please Select a Pet
@@ -168,18 +171,23 @@ const TaskForm = () => {
               );
             })}
           </select>
+          {formError.pet && (
+              <p className="text-red-500 text-sm mt-3">{formError.pet}</p>
+            )}
           <br />
           <label className="text-h2 font-jersey25">Assign task to</label>
           <div className="flex">
             <select
               required
               className={`w-full p-2  border ${
-                selectUserDropdown ? "border-mediumblue" : "border-red-500"
+                formError.user ?  "border-red-500":"border-mediumblue" 
               } rounded bg-white text-navy`}
               onChange={(e) => {
                 setSelectUserDropdown(e.target.value);
+                setFormError({...formError, user:null})
               }}
               value={selectUserDropdown}
+              onBlur={()=>{handleBlur('user', selectUserDropdown?"true":"",true,setFormError)}}
             >
               <option value={""} hidden disabled>
                 Please Select An Owner
@@ -196,6 +204,11 @@ const TaskForm = () => {
               Add Task
             </button>
           </div>
+              {selectedPet?
+            formError.user && (
+              <p className="text-red-500 text-sm mt-3">{formError.user}</p>
+            ):formError.user && (<p className="text-red-500 text-sm mt-3">Please select a pet first</p>)
+              }
         </div>
       </div>
     </form>

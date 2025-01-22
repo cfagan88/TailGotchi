@@ -3,6 +3,7 @@ import { supaClient } from "../api/client";
 import { Task, Pet } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
 import handlePointCalculation from "../utils/handlePointCalculation";
+import convertMiliseconds from "../utils/convertMiliseconds";
 
 const TaskCard = ({ task }: { task: Task }) => {
   const {
@@ -37,16 +38,7 @@ const TaskCard = ({ task }: { task: Task }) => {
   }, []);
 
   const handleCompleteTask = async () => {
-    const { data } = await supaClient
-      .from("users_pets")
-      .select("*, users_profiles!inner(*)")
-      .eq("pet_id", pet_id)
-      .eq("users_profiles.username", assigned_user);
-    if (data) {
-      const points = data[0].task_points;
-      const user_pet_id = data[0].user_pet_id;
-      handlePointCalculation(points, user_pet_id, DueDate, task_difficulty);
-    }
+    handlePointCalculation(pet_id, assigned_user, DueDate, task_difficulty);
     await supaClient
       .from("tasks")
       .update({ is_completed: true, CompletionDate: Date.now() })
@@ -60,6 +52,11 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   const handleDeleteTask = async () => {
     await supaClient.from("tasks").delete().eq("task_id", task_id);
+    const checkOverdue = (Number(convertMiliseconds(DueDate-Date.now(),"d"))<0===true)
+    if(checkOverdue){
+      handlePointCalculation(pet_id, assigned_user, DueDate, task_difficulty)
+    }
+    
   };
 
   const handleUpdateDatabase = async (e: React.FormEvent) => {

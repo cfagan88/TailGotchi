@@ -1,39 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { supaClient } from "../api/client";
-import { Task, Pet } from "../api/global.types";
+import { Task } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
 
 const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
   const {
     pet_id,
-    task_id,
     task_info,
     task_name,
     assigned_user,
-    DueDate,
     task_difficulty,
   } = completeTask;
 
-  const [myPets, setMyPets] = useState<Pet[] | null>();
   const [petName, setPetName] = useState<string>("");
   
-
-  useEffect(() => {
-    const getData = async () => {
-      const {
-        data: { user },
-      } = await supaClient.auth.getUser();
-      if (user) {
-        const { data } = await supaClient
-          .from("pets")
-          .select("*,users_pets!inner(*)")
-          .eq("users_pets.user_id", user.id);
-        setMyPets(data);
-      }
-    };
-    getData();
-  }, []);
-
 
   supaClient
       .from("pets")
@@ -80,7 +60,6 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
         {task_info}
       </p>
       <div className="flex justify-end">
-        
       </div>
     </div>
   );

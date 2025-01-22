@@ -14,7 +14,6 @@ import UserExists from "./components/UserExists";
 import ErrorPage from "./pages/ErrorPage";
 import OwnerProfile from "./pages/OwnerProfile";
 import MyTasks from "./pages/MyTasks";
-import PetProfiles from "./pages/PetProfiles";
 
 export default function App() {
   const session = useSession();
@@ -51,11 +50,30 @@ export default function App() {
             path="/"
             element={
               !session ? (
-                <div className="bg-primarylight flex justify-center m-auto w-screen h-[70vh]">
+                <div className="bg-primarylight flex justify-center items-center m-auto w-screen h-[70vh]">
                   <Auth
                     supabaseClient={supaClient}
                     providers={["google"]}
-                    appearance={{ theme: ThemeSupa }}
+                    appearance={{
+                      theme: ThemeSupa,
+                      style: {
+                        input: {
+                          color: "#091540",
+                        },
+                        label: {
+                          color: "#091540",
+                          fontWeight: "bold",
+                        },
+                        button: {
+                          backgroundColor: "#734FCF",
+                          fontWeight: "bold",
+                          color: "white",
+                        },
+                        anchor: {
+                          color: "#091540",
+                        },
+                      },
+                    }}
                   />
                 </div>
               ) : (
@@ -85,7 +103,7 @@ export default function App() {
             path="/my-profile"
             element={session ? <OwnerProfile /> : <Navigate to="/" />}
           />
-          
+
           <Route
             path="/my-tasks"
             element={session ? <MyTasks /> : <Navigate to="/" />}

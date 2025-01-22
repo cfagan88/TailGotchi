@@ -49,7 +49,7 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
   return (
     <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
       <div className="flex justify-between items-center">
-<h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+<h2 className="text-2xl text-navy font-bold line-through">{task_name}</h2>
             <p
               className={`p-2 w-1/6 text-white text-center font-bold rounded-xl ${
                 task_difficulty?.toLowerCase() === "easy"

@@ -4,11 +4,10 @@ import TaskCard from "./TaskCard";
 import { Task } from "../api/global.types";
 import Lottie from "lottie-react";
 import Loading from "../assets/animations and images/Loading.json";
-import CompletedTaskCard from "./CompletedTaskCard";
+
 
 const TaskSummary = () => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
-  const [completeTasks, setCompleteTasks] = useState<Task[] | null>([])
   const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
@@ -26,16 +25,7 @@ const TaskSummary = () => {
       setLoading(false);
 
     }
-    if(user){
-      const { data } = await supaClient
-        .from("tasks")
-        .select("*, pets!inner(*,users_pets!inner(*))")
-        .eq("pets.users_pets.user_id", user.id)
-        .neq("is_completed", false);
-        data?.sort((a, b) => a.task_id - b.task_id);
-        setCompleteTasks(data);
-        setLoading(false);
-    }
+    
 
   };
 

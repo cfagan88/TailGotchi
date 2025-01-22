@@ -3,6 +3,7 @@ import { supaClient } from "../api/client";
 import { Pet, UserProfile } from "../api/global.types";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
 import EditPet from "./EditPet";
+import { getMostRecentNote } from "../utils/getMostRecentNote";
 
 interface PetCardProp {
   petSelect: number;
@@ -94,9 +95,9 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
                 onClick={handleReturn}
                 className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
               >
-                return to owner profile
+                Return to owner profile
               </button>
-              <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center max-w-md w-full">
+              <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center max-w-7xl w-full">
                 <img
                   src={dogNodding}
                   alt={petData[0].pet_name || "Pet"}
@@ -108,7 +109,7 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
                       : "bg-gray-200"
                   }`}
                 />
-                <div className="text-navy text-left">
+                <div className="text-navy text-left w-full">
                   <h2 className="text-2xl font-bold mb-2 text-center">
                     {petData[0].pet_name || "Unknown"}
                   </h2>
@@ -134,7 +135,7 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
                   </p>
                   <p className="mb-2">
                     <span className="font-bold">Care Notes:</span>{" "}
-                    {petData[0].pet_care_info || "N/A"}
+                    {getMostRecentNote(petData[0].pet_care_info || "N/A")}
                   </p>
                   {petOwners && (
                     <p className="mb-2">
@@ -151,9 +152,9 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
                 </div>
                 <button
                   onClick={() => setEditState(true)}
-                  className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
+                  className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue my-4"
                 >
-                  Edit profile
+                  Add a new care note
                 </button>
                 {!colabForm ? (
                   <button
@@ -163,30 +164,32 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
                     Add Co-owner
                   </button>
                 ) : (
-                  <form onSubmit={handleSubmit}>
-                    <h2>Colab form</h2>
+                  <form className="w-full my-4" onSubmit={handleSubmit}>
+                    <h2 className="font-bold mb-2">
+                      Enter a collaborator below:
+                    </h2>
                     <input
                       required
-                      className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
-                      placeholder="Username"
+                      className={`w-full mb-4 p-2 mt-1 border rounded navy bg-white text-navy`}
+                      placeholder="Enter a username..."
                       value={colabUsername}
                       onChange={(e) => {
                         setColabUsername(e.target.value);
                       }}
                     />
                     <button className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4">
-                      Add Co-Owner
+                      Add co-owner
                     </button>
                   </form>
                 )}
               </article>
             </>
           ) : (
-            <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center max-w-md w-full">
+            <article className="border-2 border-navy border-opacity-50 bg-white rounded-lg p-6 shadow-md flex flex-col items-center  w-full">
               <EditPet petSelect={petSelect} />
               <button
                 onClick={() => setEditState(false)}
-                className="bg-mediumblue text-white font-bold py-2 px-4 rounded-lg hover:bg-lightblue mb-4"
+                className="bg-lightblue text-white font-bold py-2 px-4 rounded-lg hover:bg-mediumblue my-4"
               >
                 Return to pet profile
               </button>

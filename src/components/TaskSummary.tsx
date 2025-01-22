@@ -7,12 +7,12 @@ import Loading from "../assets/animations and images/Loading.json";
 import CompletedTaskCard from "./CompletedTaskCard";
 
 interface TaskSummaryProp {
-  isHomepage: boolean
+  isHomepage: boolean;
 }
 
-const TaskSummary:React.FC<TaskSummaryProp> = ({isHomepage}) => {
+const TaskSummary: React.FC<TaskSummaryProp> = ({ isHomepage }) => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
-  const [completeTasks, setCompleteTasks] = useState<Task[] | null>([])
+  const [completeTasks, setCompleteTasks] = useState<Task[] | null>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
@@ -28,19 +28,17 @@ const TaskSummary:React.FC<TaskSummaryProp> = ({isHomepage}) => {
       data?.sort((a, b) => a.DueDate - b.DueDate);
       setTasks(data);
       setLoading(false);
-
     }
-    if(user){
+    if (user) {
       const { data } = await supaClient
         .from("tasks")
         .select("*, pets!inner(*,users_pets!inner(*))")
         .eq("pets.users_pets.user_id", user.id)
         .neq("is_completed", false);
-        data?.sort((a, b) => a.task_id - b.task_id);
-        setCompleteTasks(data);
-        setLoading(false);
+      data?.sort((a, b) => a.task_id - b.task_id);
+      setCompleteTasks(data);
+      setLoading(false);
     }
-
   };
 
   useEffect(() => {
@@ -67,22 +65,32 @@ const TaskSummary:React.FC<TaskSummaryProp> = ({isHomepage}) => {
       {loading ? (
         <Lottie animationData={Loading} className="loading-animation size-24" />
       ) : (
-        tasks &&
-        <>
-        {tasks.map((task) => {
-          return <TaskCard key={task.task_id} task={task} />;
-        })}
-        {!isHomepage&&<div>
-        <h1 className="text-2xl text-navy font-bold">Completed Tasks:</h1>
-        {completeTasks && completeTasks.map((completeTask) =>{
-          return <CompletedTaskCard key={completeTask.task_id} completeTask={completeTask} />
-        })}
-        </div>}
-        </>
+        tasks && (
+          <>
+            {tasks.map((task) => {
+              return <TaskCard key={task.task_id} task={task} />;
+            })}
+            {!isHomepage && (
+              <div>
+                <h1 className="text-2xl text-navy font-bold">
+                  Completed Tasks:
+                </h1>
+                {completeTasks &&
+                  completeTasks.map((completeTask) => {
+                    return (
+                      <CompletedTaskCard
+                        key={completeTask.task_id}
+                        completeTask={completeTask}
+                      />
+                    );
+                  })}
+              </div>
+            )}
+          </>
+        )
       )}
     </div>
   );
 };
 
 export default TaskSummary;
-

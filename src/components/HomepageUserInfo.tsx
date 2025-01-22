@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
+import Lottie from "lottie-react";
+import Loading from "../assets/animations and images/Loading.json";
 
 const HomepageUserInfo = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>();
-  const [username,setUsername]=useState<string>("")
+  const [username, setUsername] = useState<string>("");
   const [scoreData, setScoreData] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getUserInfo = async () => {
     const {
@@ -16,8 +19,9 @@ const HomepageUserInfo = () => {
         .select("*")
         .eq("user_id", user.id);
       if (data) {
+        setLoading(false);
         setAvatarUrl(data[0].avatar_url);
-        setUsername(data[0].username)
+        setUsername(data[0].username);
       }
       const scoreData = await supaClient
         .from("users_pets")
@@ -26,14 +30,18 @@ const HomepageUserInfo = () => {
       const extractedPoint = scoreData.data?.map((petScore) => {
         return petScore.task_points;
       });
-      const totalPoints=extractedPoint?.reduce((acc,curVal)=>acc+curVal,0)
-      if(totalPoints){
-          setScoreData(totalPoints)
+      const totalPoints = extractedPoint?.reduce(
+        (acc, curVal) => acc + curVal,
+        0
+      );
+      if (totalPoints) {
+        setScoreData(totalPoints);
       }
     }
   };
 
   useEffect(() => {
+    setLoading(true);
     getUserInfo();
     supaClient
       .channel("users_pets")
@@ -48,7 +56,7 @@ const HomepageUserInfo = () => {
           getUserInfo();
         }
       )
-      .subscribe()
+      .subscribe();
   }, []);
 
   return (
@@ -61,7 +69,10 @@ const HomepageUserInfo = () => {
             alt="Owner Avatar"
           />
         ) : (
-          <p>No Profile Image</p>
+          <Lottie
+            animationData={Loading}
+            className="loading-animation size-24"
+          />
         )}
         <p className="text-navy">{username}</p>
         <p className="text-navy content-center">Score: {scoreData}</p>

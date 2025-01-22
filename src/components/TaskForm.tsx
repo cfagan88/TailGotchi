@@ -3,6 +3,7 @@ import { supaClient } from "../api/client";
 import { Pet, UserProfile } from "../api/global.types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import handleBlur from "../utils/handleBlur";
 
 const TaskForm = () => {
   const [myPets, setMyPets] = useState<Pet[] | null>();
@@ -12,7 +13,15 @@ const TaskForm = () => {
   const [selectUserDropdown, setSelectUserDropdown] = useState<string>("");
   const [petOwners, setPetOwners] = useState<UserProfile[] | null>();
   const [date, setDate] = useState<Date | null>(new Date());
-  const [difficulty,setDifficulty]=useState<string>("")
+  const [difficulty, setDifficulty] = useState<string>("");
+  const [formError, setFormError] = useState({
+    taskName: null as string | null,
+    taskInfo: null as string | null,
+    dueDate: null as string | null,
+    taskDifficulty: null as string | null,
+    pet: null as string | null,
+    user: null as string | null,
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -34,9 +43,11 @@ const TaskForm = () => {
     };
     getData();
   }, [selectedPet]);
+
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!taskName || !selectedPet||!date) {
+
+    if (!taskName || !selectedPet || !date) {
     } else {
       try {
         const { data } = await supaClient
@@ -50,8 +61,8 @@ const TaskForm = () => {
               CompletionDate: null,
               is_completed: false,
               assigned_user: selectUserDropdown,
-              DueDate:date.getTime(),
-              task_difficulty:difficulty,
+              DueDate: date.getTime(),
+              task_difficulty: difficulty,
             },
           ])
           .select();
@@ -79,9 +90,13 @@ const TaskForm = () => {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
             className={`w-full p-2 mt-1 border ${
-              taskName ? "border-mediumblue" : "border-red-500"
+              formError.taskName ? "border-red-500": "border-mediumblue"
             } rounded bg-white text-navy`}
+            onBlur={()=>handleBlur('taskName', taskName, true, setFormError)}
           />
+          {formError.taskName && (
+              <p className="text-red-500 text-sm mt-3">{formError.taskName}</p>
+            )}
           <input
             type="text"
             placeholder="Task Description"
@@ -102,17 +117,20 @@ const TaskForm = () => {
             />
           </div>
           <div>
-          <label className="text-h2 font-jersey25">
-            Assign a task difficulty
-          </label>
-          <select required
-            className={`w-full p-2  border ${
-              difficulty ? "border-mediumblue" : "border-red-500"
-            } rounded bg-white text-navy`}
-            onChange={(e) => {
-              setDifficulty(e.target.value);
-            }}
-            value={difficulty}>
+            <label className="text-h2 font-jersey25">
+              Assign a task difficulty
+            </label>
+            <select
+              required
+              className={`w-full p-2  border ${
+                formError.taskDifficulty ?"border-red-500" : "border-mediumblue" 
+              } rounded bg-white text-navy`}
+              onChange={(e) => {
+                setDifficulty(e.target.value);
+              }}
+              value={difficulty}
+              onBlur={()=>{handleBlur("taskDifficulty", difficulty, true, setFormError)}}
+            >
               <option value={""} hidden disabled>
                 Please Select A Difficulty
               </option>
@@ -120,6 +138,9 @@ const TaskForm = () => {
               <option value={"Medium"}>Medium</option>
               <option value={"Hard"}>Hard</option>
             </select>
+            {formError.taskDifficulty && (
+              <p className="text-red-500 text-sm mt-3">{formError.taskDifficulty}</p>
+            )}
           </div>
           <label htmlFor="pet_id" className="text-h2 font-jersey25">
             Assign pet{" "}

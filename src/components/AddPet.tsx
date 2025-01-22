@@ -5,6 +5,8 @@ import dogNodding from "../assets/animations and images/dog-nodding.gif";
 import bouncingFullHeart from "../assets/animations and images/bouncing-full-heart.gif";
 import bouncingEmptyHeart from "../assets/animations and images/bouncing-grey-heart.gif";
 import bouncingStar from "../assets/animations and images/bouncing-star.gif";
+import validateInput from "../utils/validateInput";
+import handleBlur from "../utils/handleBlur";
 
 const AddPet = () => {
   const [petName, setPetName] = useState<string>("");
@@ -25,36 +27,7 @@ const AddPet = () => {
   });
 
   const navigate = useNavigate();
-
-  const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
-
-  const validateInput = (value: string, isRequired: boolean = false) => {
-    if (isRequired && value.trim() === "") {
-      return "This field is required.";
-    } else if (value.trim() !== "" && !inputRegex.test(value)) {
-      return "Please use only letters, spaces, and standard punctuation.";
-    }
-    return null;
-  };
-
-  const handleBlur = (
-    field:
-      | "petName"
-      | "breed"
-      | "gender"
-      | "likes"
-      | "dislikes"
-      | "petCareInfo",
-    value: string,
-    isRequired: boolean = false
-  ) => {
-    const error = validateInput(value, isRequired);
-    setFormError((prevErrors) => ({
-      ...prevErrors,
-      [field]: error,
-    }));
-  };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -181,7 +154,7 @@ const AddPet = () => {
               placeholder="What is your pet's name?"
               value={petName}
               onChange={(e) => setPetName(e.target.value)}
-              onBlur={() => handleBlur("petName", petName, true)}
+              onBlur={() => handleBlur("petName", petName, true, setFormError)}
             />
             {formError.petName && (
               <p className="text-red-500 text-sm mt-3">{formError.petName}</p>
@@ -218,7 +191,7 @@ const AddPet = () => {
               placeholder="What breed is your pet?"
               value={breed || ""}
               onChange={(e) => setBreed(e.target.value)}
-              onBlur={() => handleBlur("breed", breed || "", false)}
+              onBlur={() => handleBlur("breed", breed || "", false, setFormError)}
             />
             {formError.breed && (
               <p className="text-red-500 text-sm mt-3">{formError.breed}</p>
@@ -238,7 +211,7 @@ const AddPet = () => {
               placeholder="What is your pet's gender?"
               value={gender || ""}
               onChange={(e) => setGender(e.target.value)}
-              onBlur={() => handleBlur("gender", gender || "", false)}
+              onBlur={() => handleBlur("gender", gender || "", false, setFormError)}
             />
             {formError.gender && (
               <p className="text-red-500 text-sm mt-3">{formError.gender}</p>
@@ -264,7 +237,7 @@ const AddPet = () => {
           placeholder="What activities or toys does your pet enjoy?"
           value={likes || ""}
           onChange={(e) => setLikes(e.target.value)}
-          onBlur={() => handleBlur("likes", likes || "", false)}
+          onBlur={() => handleBlur("likes", likes || "", false, setFormError)}
         />{" "}
         {formError.likes && (
           <p className="text-red-500 text-sm mt-3">{formError.likes}</p>
@@ -288,7 +261,7 @@ const AddPet = () => {
           placeholder="Is there anything your pet dislikes?"
           value={dislikes || ""}
           onChange={(e) => setDislikes(e.target.value)}
-          onBlur={() => handleBlur("dislikes", dislikes || "", false)}
+          onBlur={() => handleBlur("dislikes", dislikes || "", false, setFormError)}
         />{" "}
         {formError.dislikes && (
           <p className="text-red-500 text-sm mt-3">{formError.dislikes}</p>
@@ -312,7 +285,7 @@ const AddPet = () => {
           placeholder="Does your pet require any special care or attention?"
           value={petCareInfo || ""}
           onChange={(e) => setPetCareInfo(e.target.value)}
-          onBlur={() => handleBlur("petCareInfo", petCareInfo || "", false)}
+          onBlur={() => handleBlur("petCareInfo", petCareInfo || "", false, setFormError)}
         />{" "}
         {formError.petCareInfo && (
           <p className="text-red-500 text-sm mt-3">{formError.petCareInfo}</p>

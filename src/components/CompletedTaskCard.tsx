@@ -1,39 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { supaClient } from "../api/client";
-import { Task, Pet } from "../api/global.types";
+import { Task } from "../api/global.types";
 import taskDog from "../assets/animations and images/happy-dog.gif";
 
 const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
   const {
     pet_id,
-    task_id,
     task_info,
     task_name,
     assigned_user,
-    DueDate,
     task_difficulty,
   } = completeTask;
 
-  const [myPets, setMyPets] = useState<Pet[] | null>();
   const [petName, setPetName] = useState<string>("");
   
-
-  useEffect(() => {
-    const getData = async () => {
-      const {
-        data: { user },
-      } = await supaClient.auth.getUser();
-      if (user) {
-        const { data } = await supaClient
-          .from("pets")
-          .select("*,users_pets!inner(*)")
-          .eq("users_pets.user_id", user.id);
-        setMyPets(data);
-      }
-    };
-    getData();
-  }, []);
-
 
   supaClient
       .from("pets")
@@ -49,7 +29,7 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
   return (
     <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
       <div className="flex justify-between items-center">
-<h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+<h2 className="text-2xl text-navy font-bold line-through">{task_name}</h2>
             <p
               className={`p-2 w-1/6 text-white text-center font-bold rounded-xl ${
                 task_difficulty?.toLowerCase() === "easy"
@@ -80,7 +60,6 @@ const CompletedTaskCard = ({ completeTask }: { completeTask: Task }) => {
         {task_info}
       </p>
       <div className="flex justify-end">
-        
       </div>
     </div>
   );

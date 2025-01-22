@@ -47,7 +47,6 @@ const SelectedPet: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
         .select("*, users_pets!inner(*)")
         .eq("users_pets.pet_id", petSelect);
       if (ownersData) {
-        // console.log(ownersData.data)
         setPetOwners(ownersData.data);
       }
     };

@@ -5,7 +5,7 @@ const MyTasks = () => {
   return (
     <>
         <TaskForm />
-      <TaskSummary />
+      <TaskSummary isHomepage={false}/>
     </>
   );
 };

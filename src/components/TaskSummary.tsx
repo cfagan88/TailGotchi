@@ -6,7 +6,11 @@ import Lottie from "lottie-react";
 import Loading from "../assets/animations and images/Loading.json";
 import CompletedTaskCard from "./CompletedTaskCard";
 
-const TaskSummary = () => {
+interface TaskSummaryProp {
+  isHomepage: boolean
+}
+
+const TaskSummary:React.FC<TaskSummaryProp> = ({isHomepage}) => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
   const [completeTasks, setCompleteTasks] = useState<Task[] | null>([])
   const [loading, setLoading] = useState<boolean>(true);
@@ -68,11 +72,12 @@ const TaskSummary = () => {
         {tasks.map((task) => {
           return <TaskCard key={task.task_id} task={task} />;
         })}
-        
+        {!isHomepage&&<div>
         <h1 className="text-2xl text-navy font-bold">Completed Tasks:</h1>
         {completeTasks && completeTasks.map((completeTask) =>{
           return <CompletedTaskCard key={completeTask.task_id} completeTask={completeTask} />
         })}
+        </div>}
         </>
       )}
     </div>

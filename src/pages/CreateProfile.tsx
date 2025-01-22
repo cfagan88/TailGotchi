@@ -2,6 +2,8 @@ import { useState } from "react";
 import { supaClient } from "../api/client";
 import { useNavigate } from "react-router-dom";
 import CharacterSelection from "../components/CharacterSelection";
+import validateInput from "../utils/validateInput";
+import handleBlur from "../utils/handleBlur";
 import FAQSection from "../components/FaqSection";
 import HowItWorks from "../components/HowItWorks";
 import animatedFemale from "../assets/animations and images/female-three-and-dog-animated.gif";
@@ -17,28 +19,6 @@ const ProfileCreation: React.FC = () => {
     message: null as string | null,
   });
   const navigate = useNavigate();
-
-  const validateInput = (value: string, isRequired: boolean = false) => {
-    const inputRegex = /^[\p{L}\p{M}'-.!]+(?: [\p{L}\p{M}'-.!]+)*$/u;
-    if (isRequired && value.trim() === "") {
-      return "This field is required.";
-    } else if (value.trim() !== "" && !inputRegex.test(value)) {
-      return "Please use only letters, spaces, and standard punctuation.";
-    }
-    return null;
-  };
-
-  const handleBlur = (
-    field: "username" | "name" | "avatarUrl",
-    value: string,
-    isRequired: boolean = false
-  ) => {
-    const error = validateInput(value, isRequired);
-    setFormError((prevErrors) => ({
-      ...prevErrors,
-      [field]: error,
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,7 +145,7 @@ const ProfileCreation: React.FC = () => {
                 } rounded-lg`}
                 required
                 onChange={(e) => setUsername(e.target.value)}
-                onBlur={() => handleBlur("username", username || "", true)}
+                onBlur={() => handleBlur("username", username || "", true , setFormError)}
               />
               {formError.username && (
                 <p className="text-red-500 text-sm">{formError.username}</p>
@@ -177,7 +157,7 @@ const ProfileCreation: React.FC = () => {
                 maxLength={70}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                onBlur={() => handleBlur("name", name || "", false)}
+                onBlur={() => handleBlur("name", name || "", false , setFormError)}
                 className={`bg-white text-navy w-full p-3 border ${
                   formError.name ? "border-red-500" : "border-mediumblue"
                 } rounded-lg`}

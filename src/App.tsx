@@ -50,7 +50,7 @@ export default function App() {
             path="/"
             element={
               !session ? (
-                <div className="bg-primarylight flex justify-center outline items-center m-auto w-screen h-[70vh]">
+                <div className="bg-primarylight flex justify-center items-center m-auto w-screen h-[70vh]">
                   <Auth
                     supabaseClient={supaClient}
                     providers={["google"]}

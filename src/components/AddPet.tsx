@@ -148,7 +148,7 @@ const AddPet = () => {
               minLength={2}
               maxLength={20}
               required
-              className={`w-full p-2 mt-1 border ${
+              className={`w-full p-2 mt-1  bg-white text-navy border ${
                 formError.petName ? "border-red-500" : "border-mediumblue"
               } rounded`}
               placeholder="What is your pet's name?"
@@ -169,7 +169,7 @@ const AddPet = () => {
               id="pet-age"
               min={0}
               max={25}
-              className="w-full p-2 mt-1 border border-mediumblue rounded"
+              className="w-full p-2 mt-1 bg-white text-navy border border-mediumblue rounded"
               placeholder="How old is your pet?"
               value={petAge || ""}
               onChange={(e) => setPetAge(Number(e.target.value))}
@@ -185,7 +185,7 @@ const AddPet = () => {
               type="text"
               id="pet-breed"
               maxLength={50}
-              className={`w-full p-2 mt-1 border ${
+              className={`w-full p-2 mt-1 bg-white text-navy border ${
                 formError.breed ? "border-red-500" : "border-mediumblue"
               } rounded`}
               placeholder="What breed is your pet?"
@@ -205,7 +205,7 @@ const AddPet = () => {
               type="text"
               id="pet-gender"
               maxLength={20}
-              className={`w-full p-2 mt-1 border ${
+              className={`w-full p-2 mt-1 bg-white text-navy border ${
                 formError.gender ? "border-red-500" : "border-mediumblue"
               } rounded`}
               placeholder="What is your pet's gender?"
@@ -231,7 +231,7 @@ const AddPet = () => {
         <textarea
           id="pet-likes"
           maxLength={250}
-          className={`w-full p-2 mt-1 border ${
+          className={`w-full p-2 mt-1 bg-white text-navy border ${
             formError.likes ? "border-red-500" : "border-mediumblue"
           } rounded`}
           placeholder="What activities or toys does your pet enjoy?"
@@ -255,7 +255,7 @@ const AddPet = () => {
         <textarea
           id="pet-dislikes"
           maxLength={250}
-          className={`w-full p-2 mt-1 border ${
+          className={`w-full p-2 mt-1 bg-white text-navy border ${
             formError.dislikes ? "border-red-500" : "border-mediumblue"
           } rounded`}
           placeholder="Is there anything your pet dislikes?"
@@ -279,7 +279,7 @@ const AddPet = () => {
         <textarea
           id="pet-care"
           maxLength={500}
-          className={`w-full p-2 mt-1 border ${
+          className={`w-full p-2 mt-1 bg-white text-navy border ${
             formError.petCareInfo ? "border-red-500" : "border-mediumblue"
           } rounded`}
           placeholder="Does your pet require any special care or attention?"

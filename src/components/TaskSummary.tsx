@@ -5,6 +5,7 @@ import { Task } from "../api/global.types";
 import Lottie from "lottie-react";
 import Loading from "../assets/animations and images/Loading.json";
 
+
 const TaskSummary = () => {
   const [tasks, setTasks] = useState<Task[] | null>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +23,10 @@ const TaskSummary = () => {
       data?.sort((a, b) => a.DueDate - b.DueDate);
       setTasks(data);
       setLoading(false);
+
     }
+    
+
   };
 
   useEffect(() => {
@@ -50,9 +54,13 @@ const TaskSummary = () => {
         <Lottie animationData={Loading} className="loading-animation size-24" />
       ) : (
         tasks &&
-        tasks.map((task) => {
+        <>
+        {tasks.map((task) => {
           return <TaskCard key={task.task_id} task={task} />;
-        })
+        })}
+        
+        
+        </>
       )}
     </div>
   );

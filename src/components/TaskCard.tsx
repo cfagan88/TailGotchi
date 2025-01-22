@@ -133,9 +133,22 @@ const TaskCard = ({ task }: { task: Task }) => {
         </form>
       ) : (
         <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
-          <h2 className="text-2xl text-navy font-bold">
-            {task_name} - {task_difficulty}
-          </h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
+            <p
+              className={`p-2 w-1/6 text-white text-center font-bold rounded-xl ${
+                task_difficulty?.toLowerCase() === "easy"
+                  ? "bg-green-400"
+                  : task_difficulty?.toLowerCase() === "medium"
+                  ? "bg-orange-400"
+                  : task_difficulty?.toLowerCase() === "hard"
+                  ? "bg-red-400"
+                  : "bg-white"
+              }`}
+            >
+              {task_difficulty}
+            </p>
+          </div>
           <h2 className="mb-2 text-xl text-navy">
             Due Date: {new Date(DueDate).toDateString()}
           </h2>

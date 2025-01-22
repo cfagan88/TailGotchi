@@ -29,6 +29,9 @@ export default {
       black: colors.black,
       white: colors.white,
       red: colors.red,
+      green: colors.green,
+      orange: colors.orange,
+      gray: colors.gray,
     },
     extend: {
       fontFamily: {

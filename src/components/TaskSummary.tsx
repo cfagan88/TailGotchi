@@ -69,10 +69,7 @@ const TaskSummary = () => {
           return <TaskCard key={task.task_id} task={task} />;
         })}
         
-        <h1 className="text-2xl text-navy font-bold">Completed Tasks:</h1>
-        {completeTasks && completeTasks.map((completeTask) =>{
-          return <CompletedTaskCard key={completeTask.task_id} completeTask={completeTask} />
-        })}
+        
         </>
       )}
     </div>

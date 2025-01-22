@@ -4,6 +4,7 @@ import { Pet } from "../api/global.types";
 import dogNodding from "../assets/animations and images/dog-nodding.gif";
 import { IoMdMale } from "react-icons/io";
 import { IoFemale } from "react-icons/io5";
+import { getMostRecentNote } from "../utils/getMostRecentNote";
 
 interface PetCardProp {
   setPetSelect: React.Dispatch<React.SetStateAction<null | number>>;
@@ -99,8 +100,8 @@ const PetCards: React.FC<PetCardProp> = ({ setPetSelect }) => {
                   {pet.pet_dislikes || "N/A"}
                 </p>
                 <p className="mb-2">
-                  <span className="font-bold">Care Notes:</span>{" "}
-                  {pet.pet_care_info || "N/A"}
+                  <span className="font-bold">Care notes:</span>{" "}
+                  {getMostRecentNote(pet.pet_care_info)}
                 </p>
               </div>
               <button

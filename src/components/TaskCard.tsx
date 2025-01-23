@@ -18,6 +18,7 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   const [myPets, setMyPets] = useState<Pet[] | null>();
   const [petName, setPetName] = useState<string>("");
+  const [petGender, setPetGender] = useState<string | null>("");
   const [editTask, setEditTask] = useState<boolean>(false);
   const [taskInfo, setTaskInfo] = useState<Task>(task);
 
@@ -52,11 +53,11 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   const handleDeleteTask = async () => {
     await supaClient.from("tasks").delete().eq("task_id", task_id);
-    const checkOverdue = (Number(convertMiliseconds(DueDate-Date.now(),"d"))<0===true)
-    if(checkOverdue){
-      handlePointCalculation(pet_id, assigned_user, DueDate, task_difficulty)
+    const checkOverdue =
+      Number(convertMiliseconds(DueDate - Date.now(), "d")) < 0 === true;
+    if (checkOverdue) {
+      handlePointCalculation(pet_id, assigned_user, DueDate, task_difficulty);
     }
-    
   };
 
   const handleUpdateDatabase = async (e: React.FormEvent) => {
@@ -75,11 +76,12 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   supaClient
     .from("pets")
-    .select("pet_name")
+    .select("pet_name, gender")
     .eq("pet_id", pet_id)
     .then(({ data }) => {
       if (data) {
         setPetName(data[0].pet_name);
+        setPetGender(data[0].gender)
         return;
       }
     });
@@ -155,9 +157,17 @@ const TaskCard = ({ task }: { task: Task }) => {
           <div className="flex">
             <h3 className="mb-2 text-xl text-navy">{petName}</h3>
             <img
-              className="ml-2 w-6 h-6 bg-mediumblue rounded-full"
               src={taskDog}
-              alt="Animation of nodding dog"
+              alt={petName || "Pet"}
+              className={
+                `ml-2 w-6 h-6 object-cover rounded-full border-2 border-navy border-opacity-45 mb-4 mx-auto ${
+                  petGender?.toLowerCase() === "female"
+                    ? "bg-pink"
+                    : petGender?.toLowerCase() === "male"
+                    ? "bg-navy"
+                    : "bg-gray-200"
+                }`
+              }
             />
           </div>
           <h3 className="mb-2 text-xl text-navy">

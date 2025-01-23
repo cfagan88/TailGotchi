@@ -89,7 +89,7 @@ const OwnerEdit: React.FC<EditStateProps> = ({setEditState}) => {
             <input
               type="text"
               id="username"
-              className="text-navy w-full p-2 rounded-lg border border-navy"
+              className="text-navy w-full p-2 rounded-lg border border-navy bg-white text-navy"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -104,7 +104,7 @@ const OwnerEdit: React.FC<EditStateProps> = ({setEditState}) => {
             <input
               type="text"
               id="name"
-              className="text-navy w-full p-2 rounded-lg border border-navy"
+              className="text-navy w-full p-2 rounded-lg border border-navy bg-white text-navy"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />

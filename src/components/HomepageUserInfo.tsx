@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { supaClient } from "../api/client";
 import Lottie from "lottie-react";
 import Loading from "../assets/animations and images/Loading.json";
+import fullHeartBar from "../assets/animations and images/full-heartbar.png";
 
 const HomepageUserInfo = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>();
-  const [username, setUsername] = useState<string>("");
   const [scoreData, setScoreData] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -21,7 +21,6 @@ const HomepageUserInfo = () => {
       if (data) {
         setLoading(false);
         setAvatarUrl(data[0].avatar_url);
-        setUsername(data[0].username);
       }
       const scoreData = await supaClient
         .from("users_pets")
@@ -59,25 +58,67 @@ const HomepageUserInfo = () => {
       .subscribe();
   }, []);
 
+  const scoreClass =
+    scoreData < 0
+      ? "text-red-500"
+      : scoreData >= 1
+      ? "text-green-500"
+      : "text-white";
+
   return (
-    <>
-      <div className="justify-between">
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            className="w-40 h-40 bg-navy max-w-full rounded-lg my-4"
-            alt="Owner Avatar"
-          />
-        ) : (
-          <Lottie
-            animationData={Loading}
-            className="loading-animation size-24"
-          />
-        )}
-        <p className="text-navy">{username}</p>
-        <p className="text-navy content-center">Score: {scoreData}</p>
+    <div className="bg-navy  text-white rounded-xl content-center p-6">
+      <div className="flex gap-8 w-full justify-between space-x-4">
+        <div className="w-56 flex flex-col justify-center items-center">
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              className="w-40 h-40 bg-lightblue rounded-xl mb-2"
+              alt="Owner Avatar"
+            />
+          ) : (
+            <Lottie
+              animationData={Loading}
+              className="loading-animation size-24"
+            />
+          )}
+        </div>
+        <div className="w-full text-left">
+          <div className="flex items-center justify-start h-11 gap-4 mb-6">
+            <h3 className="text-2xl font-bold mt-3 mb-5">Player Overview</h3>
+            <img className="w-20 h-20 " src={fullHeartBar} alt="heartbar" />
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            <p className="text-text">
+              <span className="font-bold">Your current score:</span>{" "}
+              <span className={`${scoreClass} font-bold`}>{scoreData}</span>
+            </p>
+            <p>
+              <span className="font-bold">Total tasks completed:</span> 10 tasks
+            </p>
+            <p>
+              <span className="font-bold">Best day:</span> Monday (20 tasks
+              completed)
+            </p>
+            <p>
+              <span className="font-bold">Task completion streak:</span> 10 days
+            </p>
+            <p>
+              <span className="font-bold">Total points earned:</span> 100 points
+            </p>
+            <p>
+              <span className="font-bold">Pet mood:</span> Happy (95%)
+            </p>
+            <p>
+              <span className="font-bold">Total pets:</span> 2 pets
+            </p>
+            <p>
+              <span className="font-bold">Most active pet:</span> Jasper (22
+              tasks completed)
+            </p>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

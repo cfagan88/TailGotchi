@@ -61,29 +61,44 @@ const TaskSummary: React.FC<TaskSummaryProp> = ({ isHomepage }) => {
   }, []);
 
   return (
-    <div id="tasks-main">
+    <div id="tasks-main" className="w-full">
       {loading ? (
-        <Lottie animationData={Loading} className="loading-animation size-24" />
+        <Lottie
+          animationData={Loading}
+          className="loading-animation w-16 h-16 mx-auto"
+        />
       ) : (
         tasks && (
           <>
-            {tasks.map((task) => {
-              return <TaskCard key={task.task_id} task={task} />;
-            })}
-            {!isHomepage && (
-              <div>
-                <h1 className="text-2xl text-navy font-bold">
-                  Completed Tasks:
+            <div
+              className={`${
+                isHomepage
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : ""
+              }`}
+            >
+              {tasks.map((task) => (
+                <div key={task.task_id} className="relative rounded-lg p-4">
+                  <TaskCard task={task} />
+                </div>
+              ))}
+            </div>
+
+            {!isHomepage && completeTasks && (
+              <div className="mt-8">
+                <h1 className="text-3xl underline text-navy font-bold text-center mb-4">
+                  Completed Tasks
                 </h1>
-                {completeTasks &&
-                  completeTasks.map((completeTask) => {
-                    return (
-                      <CompletedTaskCard
-                        key={completeTask.task_id}
-                        completeTask={completeTask}
-                      />
-                    );
-                  })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {completeTasks.map((completeTask) => (
+                    <div
+                      key={completeTask.task_id}
+                      className="relative rounded-lg  p-4"
+                    >
+                      <CompletedTaskCard completeTask={completeTask} />
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </>

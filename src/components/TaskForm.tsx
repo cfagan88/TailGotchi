@@ -68,11 +68,10 @@ const TaskForm = () => {
           .select();
         if (data) {
           setSelectedPet(""),
-          setTaskName(""),
-          setTaskInfo(""),
-          setDifficulty("");
-          setSelectUserDropdown(""), 
-          setDate(new Date());
+            setTaskName(""),
+            setTaskInfo(""),
+            setDifficulty("");
+          setSelectUserDropdown(""), setDate(new Date());
           alert("Task added successfully!");
         }
       } catch (error) {
@@ -87,7 +86,7 @@ const TaskForm = () => {
     >
       <div className="flex space-x-4">
         <div className="flex-1">
-          <h2 className="text-h2 font-jersey25">Create task</h2>
+          <h2 className="text-4xl font-extrabold">Create task</h2>
           <input
             type="text"
             placeholder="Task Name"
@@ -95,47 +94,49 @@ const TaskForm = () => {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
             className={`w-full p-2 mt-1 border ${
-              formError.taskName ? "border-red-500": "border-mediumblue"
+              formError.taskName ? "border-red-500" : "border-mediumblue"
             } rounded bg-white text-navy`}
-            onBlur={()=>handleBlur('taskName', taskName, true, setFormError)}
+            onBlur={() => handleBlur("taskName", taskName, true, setFormError)}
           />
           {formError.taskName && (
-              <p className="text-red-500 text-sm mt-3">{formError.taskName}</p>
-            )}
+            <p className="text-red-500 text-sm mt-3">{formError.taskName}</p>
+          )}
           <input
             type="text"
             placeholder="Task Description"
             value={taskInfo}
             onChange={(e) => setTaskInfo(e.target.value)}
-            className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+            className={`w-full p-2 mt-1 border rounded navy bg-white text-navy mb-4`}
           />
-          <label className="text-h2 font-jersey25">
-            Assign a completion date
-          </label>
+          <label className="text-2xl font-bold">Assign a completion date</label>
           <div>
             <DatePicker
               selected={date}
               onChange={(date) => {
                 setDate(date);
               }}
-              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy mb-4`}
             />
           </div>
           <div>
-            <label className="text-h2 font-jersey25">
+            <label className="text-2xl font-bold">
               Assign a task difficulty
             </label>
             <select
               required
               className={`w-full p-2  border ${
-                formError.taskDifficulty ?"border-red-500" : "border-mediumblue" 
-              } rounded bg-white text-navy`}
+                formError.taskDifficulty
+                  ? "border-red-500"
+                  : "border-mediumblue"
+              } rounded bg-white text-navy mb-4`}
               onChange={(e) => {
                 setDifficulty(e.target.value);
-                setFormError({...formError, taskDifficulty:null})
+                setFormError({ ...formError, taskDifficulty: null });
               }}
               value={difficulty}
-              onBlur={()=>{handleBlur("taskDifficulty", difficulty, true, setFormError)}}
+              onBlur={() => {
+                handleBlur("taskDifficulty", difficulty, true, setFormError);
+              }}
             >
               <option value={""} hidden disabled>
                 Please Select A Difficulty
@@ -145,25 +146,29 @@ const TaskForm = () => {
               <option value={"Hard"}>Hard</option>
             </select>
             {formError.taskDifficulty && (
-              <p className="text-red-500 text-sm mt-3">{formError.taskDifficulty}</p>
+              <p className="text-red-500 text-sm mt-3">
+                {formError.taskDifficulty}
+              </p>
             )}
           </div>
-          <label htmlFor="pet_id" className="text-h2 font-jersey25">
+          <label htmlFor="pet_id" className="text-2xl font-bold">
             Assign pet{" "}
           </label>
           <select
             required
             className={`w-full p-2  border ${
-              formError.pet ?"border-red-500" : "border-mediumblue"
-            } rounded bg-white text-navy`}
+              formError.pet ? "border-red-500" : "border-mediumblue"
+            } rounded bg-white text-navy mb-4`}
             onChange={(e) => {
               setSelectedPet(e.target.value);
               setSelectUserDropdown("");
-              setFormError({...formError, pet:null})
+              setFormError({ ...formError, pet: null });
             }}
             value={selectedPet}
             id="pet_id"
-            onBlur={()=>{handleBlur('pet', selectedPet?"true":"", true, setFormError)}}
+            onBlur={() => {
+              handleBlur("pet", selectedPet ? "true" : "", true, setFormError);
+            }}
           >
             <option value={""} hidden disabled>
               Please Select a Pet
@@ -177,22 +182,29 @@ const TaskForm = () => {
             })}
           </select>
           {formError.pet && (
-              <p className="text-red-500 text-sm mt-3">{formError.pet}</p>
-            )}
+            <p className="text-red-500 text-sm mt-3">{formError.pet}</p>
+          )}
           <br />
-          <label className="text-h2 font-jersey25">Assign task to</label>
+          <label className="text-2xl font-bold">Assign task to</label>
           <div className="flex">
             <select
               required
               className={`w-full p-2  border ${
-                formError.user ?  "border-red-500":"border-mediumblue" 
+                formError.user ? "border-red-500" : "border-mediumblue"
               } rounded bg-white text-navy`}
               onChange={(e) => {
                 setSelectUserDropdown(e.target.value);
-                setFormError({...formError, user:null})
+                setFormError({ ...formError, user: null });
               }}
               value={selectUserDropdown}
-              onBlur={()=>{handleBlur('user', selectUserDropdown?"true":"",true,setFormError)}}
+              onBlur={() => {
+                handleBlur(
+                  "user",
+                  selectUserDropdown ? "true" : "",
+                  true,
+                  setFormError
+                );
+              }}
             >
               <option value={""} hidden disabled>
                 Please Select An Owner
@@ -209,11 +221,15 @@ const TaskForm = () => {
               Add Task
             </button>
           </div>
-              {selectedPet?
-            formError.user && (
-              <p className="text-red-500 text-sm mt-3">{formError.user}</p>
-            ):formError.user && (<p className="text-red-500 text-sm mt-3">Please select a pet first</p>)
-              }
+          {selectedPet
+            ? formError.user && (
+                <p className="text-red-500 text-sm mt-3">{formError.user}</p>
+              )
+            : formError.user && (
+                <p className="text-red-500 text-sm mt-3">
+                  Please select a pet first
+                </p>
+              )}
         </div>
       </div>
     </form>

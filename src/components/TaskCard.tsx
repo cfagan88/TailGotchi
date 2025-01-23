@@ -98,64 +98,62 @@ const TaskCard = ({ task }: { task: Task }) => {
               onChange={(e) => {
                 setTaskInfo({ ...taskInfo, task_name: e.target.value });
               }}
-              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+              className="w-full p-2 mt-1 border rounded bg-white text-navy"
             />
             <h2 className="text-2xl text-navy font-bold">Task Information</h2>
             <input
-              value={taskInfo.task_info ? taskInfo.task_info : ""}
+              value={taskInfo.task_info || ""}
               onChange={(e) => {
                 setTaskInfo({ ...taskInfo, task_info: e.target.value });
               }}
-              className={`w-full p-2 mt-1 border rounded navy bg-white text-navy`}
+              className="w-full p-2 mt-1 border rounded bg-white text-navy"
             />
             <h2 className="text-2xl text-navy font-bold">Pet Name</h2>
             <select
               required
-              className={`w-full p-2  border  rounded bg-white text-navy`}
+              className="w-full p-2 border rounded bg-white text-navy"
               value={taskInfo.pet_id}
               onChange={(e) => {
                 setTaskInfo({ ...taskInfo, pet_id: Number(e.target.value) });
               }}
             >
-              <option value={""} hidden disabled>
+              <option value="" hidden disabled>
                 Please Select a Pet
               </option>
-              {myPets?.map((pet) => {
-                return (
-                  <option key={pet.pet_name} value={pet.pet_id}>
-                    {pet.pet_name}
-                  </option>
-                );
-              })}
+              {myPets?.map((pet) => (
+                <option key={pet.pet_name} value={pet.pet_id}>
+                  {pet.pet_name}
+                </option>
+              ))}
             </select>
-            <button className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue">
+            <button className="bg-lightblue px-8 py-2 mt-4 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue">
               Complete
             </button>
           </div>
         </form>
       ) : (
-        <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto drop-shadow-lg">
-          <div className="flex justify-between items-center">
+        <div className="p-4 text-navy rounded-xl my-4 bg-primarydark max-w-4xl mx-auto">
+          <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl text-navy font-bold">{task_name}</h2>
             <p
-              className={`p-2 w-1/6 text-white text-center font-bold rounded-xl ${
+              className={`p-2 w-24 text-white text-center font-bold rounded-xl ${
                 task_difficulty?.toLowerCase() === "easy"
                   ? "bg-green-400"
                   : task_difficulty?.toLowerCase() === "medium"
                   ? "bg-orange-400"
                   : task_difficulty?.toLowerCase() === "hard"
                   ? "bg-red-400"
-                  : "bg-white"
+                  : "bg-gray-300"
               }`}
             >
               {task_difficulty}
             </p>
           </div>
-          <h2 className="mb-2 text-xl text-navy">
+          <h2 className="mb-2 text-lg text-navy">
             Due Date: {new Date(DueDate).toDateString()}
           </h2>
-          <div className="flex">
-            <h3 className="mb-2 text-xl text-navy">{petName}</h3>
+          <div className="flex items-center mb-2">
+            <h3 className="text-lg text-navy">{petName}</h3>
             <img
               src={taskDog}
               alt={petName || "Pet"}
@@ -170,31 +168,31 @@ const TaskCard = ({ task }: { task: Task }) => {
               }
             />
           </div>
-          <h3 className="mb-2 text-xl text-navy">
+          <h3 className="mb-2 text-lg text-navy">
             Assigned to: {assigned_user}
           </h3>
-          <p className="mb-4 text-base font-light content-center h-20 pl-2 rounded-xl bg-white bg-opacity-70">
+          <p className="mb-4 text-base font-light h-20 p-2 rounded-xl bg-white bg-opacity-70">
             {task_info}
           </p>
-          <div className="flex justify-end">
+          <div className="flex justify-between flex-wrap gap-2">
             <button
               type="button"
               onClick={handleEditTask}
-              className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue "
+              className="bg-lightblue px-6 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue"
             >
               Edit
             </button>
             <button
               type="button"
               onClick={handleDeleteTask}
-              className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue "
+              className="bg-lightblue px-6 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue"
             >
               Delete
             </button>
             <button
               type="button"
               onClick={handleCompleteTask}
-              className="bg-lightblue px-20 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue "
+              className="bg-lightblue px-6 py-2 rounded-full font-extrabold text-white hover:bg-mediumblue border-solid border-mediumblue border-b-4 border-r-2 hover:border-lightblue"
             >
               Done
             </button>

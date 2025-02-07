@@ -10,7 +10,7 @@ Tailgotchi turns routine dog care into a fun and rewarding experience. Owners ca
 
 ## Hosted Version
 
-Please find the hosted site [here]() UPDATE
+Please find the hosted site [here](https://tailgotchi.netlify.app/)
 
 ## Built With:
 

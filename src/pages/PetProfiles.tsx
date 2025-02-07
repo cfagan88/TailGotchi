@@ -43,7 +43,7 @@ const PetProfiles: React.FC<PetCardProp> = ({ petSelect, setPetSelect }) => {
 
       if (error) {
         setFetchError("Could not fetch pet data");
-        console.log(error);
+        console.log(fetchError);
         setPet(null);
       }
 

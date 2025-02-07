@@ -3,11 +3,21 @@ import { UserProfile } from "../api/global.types";
 import { supaClient } from "../api/client";
 import OwnerEdit from "./OwnerEdit";
 import { CiEdit } from "react-icons/ci";
+import characterOne from "../assets/animations and images/female-one.png";
+import characterTwo from "../assets/animations and images/female-two.png";
+import characterThree from "../assets/animations and images/female-three.png";
+import characterFour from "../assets/animations and images/male-one.png";
+import characterFive from "../assets/animations and images/male-two.png";
+import characterSix from "../assets/animations and images/male-three.png";
+import getAvatarImage from "../utils/getAvatarImage";
+import Lottie from "lottie-react";
+import Loading from "../assets/animations and images/Loading.json";
 
 const OwnerDetails = () => {
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [ownerData, setOwnerData] = useState<null | UserProfile[]>(null);
   const [editState, setEditState] = useState<boolean>(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -35,8 +45,23 @@ const OwnerDetails = () => {
       }
     };
 
+    if(ownerData){
+      getAvatarImage(
+        ownerData[0].avatar_url,
+        setAvatarUrl,
+        characterOne,
+        characterTwo,
+        characterThree,
+        characterFour,
+        characterFive,
+        characterSix
+      );
+    }
+    
     fetchProfile();
-  }, [editState]);
+  }, [editState, ownerData]);
+  
+  console.log(ownerData)
 
   return (
     <>
@@ -48,13 +73,12 @@ const OwnerDetails = () => {
               <p className="text-navy text-xl font-semibold mb-4">
                 Personal info
               </p>
-              {!ownerData[0].avatar_url ? (
-                <p className="pl-4 py-4 italic text-red-500">
-                  No profile image
-                </p>
-              ) : (
+              {!avatarUrl ? <Lottie
+              animationData={Loading}
+              className="loading-animation size-24"
+            /> : (
                 <img
-                  src={ownerData[0].avatar_url}
+                  src={avatarUrl}
                   className="w-24 h-24 bg-navy max-w-full rounded-lg my-4"
                   alt="Owner Avatar"
                 />
